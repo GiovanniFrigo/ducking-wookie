@@ -47,12 +47,20 @@
   		<script src="js/build/production.js"></script>
 
   		<script>
+  			// instance variables
   			var form_i = 0;
+  			var booking = new Object();
+  			booking.id =  $.now();
+
   			$(window).ready(function() {
+
   				replaceScreen(screens[form_i]);
 
 	  			$('#proceedForm').click(function () {
 	  				if (form_i < screens.length - 1) {
+	  					// put html content into the booking object
+	  					addParamToBooking(booking, form_i, $('.data').html());
+	  					// go to next screen
 	  					form_i++;
 	  					replaceScreen(screens[form_i]);
 	  				}
