@@ -230,13 +230,22 @@ function checkoutEvent() {
  *  Set booking entry
  */
 function setEntry(value, elOriginal) {
+    // set the params
     addParamToBooking(value, elOriginal);
-    $('#' + screens[screens.indexOf(elOriginal) + 1] + '-container').show();
 
-    // check if the user has set a different during the form input location from the previous one -> restart the form
-    if (elOriginal == 'location')
+    if (elOriginal == 'location') {
+        // check if the user has set a different during the form input location from the previous one -> restart the form
         if (lastLocation != value && lastLocation != null)
-            hideAllViewsFromIndex(screens.indexOf(elOriginal) + 2);
+            hideAllViewsFromIndex(screens.indexOf(elOriginal) + 1);
+        // get availabilities from server using the location
+        $.get("http://gourmate.herokuapp.com/protoapi/menu/Treviso/")
+            .done(function(data) {
+                console.log(data)
+            });
+    }
+
+    // display next step
+    $('#' + screens[screens.indexOf(elOriginal) + 1] + '-container').show();
 }
 
 function hideAllViewsFromIndex(idx) {
