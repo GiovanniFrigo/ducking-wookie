@@ -4,5 +4,15 @@
 @import 'navbar';
 
 body {
-	background: aliceblue;
+	background: rgba(black,0.1);
+}
+
+.form-column {
+	margin: 0 auto !important;
+	float: none !important;
+}
+
+label {
+	text-transform: lowercase;
+	font-variant: small-caps;
 }
