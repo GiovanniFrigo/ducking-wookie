@@ -100,7 +100,7 @@ class Menu(models.Model):
 
 class Cook(models.Model):
     name = models.CharField(max_length=128)
-    phone_number = modls.CharField(max_length=15)
+    phone_number = models.CharField(max_length=15)
 
     def __unicode__(self):
         return self.name
