@@ -133,7 +133,7 @@ def menu_place_not_booked(request, place, year, month):
     end_month = add_months(month_selected, 1) + datetime.timedelta(days=-1)
     delta = end_month - month_selected
     calendar = {'calendar': {}}
-    for i in range(delta.days):
+    for i in range(1, delta.days+1):
         working_date = month_selected+datetime.timedelta(days=i)
         calendar['calendar']['%s' % i] = free_spots(working_date, place_obj)
 
