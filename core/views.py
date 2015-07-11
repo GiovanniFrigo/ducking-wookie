@@ -7,7 +7,7 @@ from models import Booking, Menu, Place
 
 
 def menu_place(request, place):
-    menu_set = Menu.objects.filter(school__place=place).values()
+    menu_set = Menu.objects.filter(available_in=place).values()
 
     return JsonResponse(menu_set)
 
