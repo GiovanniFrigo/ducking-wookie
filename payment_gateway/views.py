@@ -1,7 +1,9 @@
 from django.shortcuts import render
 import braintree
 from django.http.response import HttpResponseBadRequest, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 # Create your views here.
 def generate_token(request):
     braintree.Configuration.configure(
@@ -16,6 +18,7 @@ def generate_token(request):
     return JsonResponse({"token": token})
 
 
+@csrf_exempt
 def post_payment(request):
     if "payment_method_nonce" not in request.forms:
         return HttpResponseBadRequest()
