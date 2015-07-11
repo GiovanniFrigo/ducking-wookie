@@ -67,18 +67,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.username = self.email
         super(User, self).save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
+    def __unicode__(self):
+        return self.email
 
-class Booking(models.Model):
-    user = models.ForeignKey(User)
+class Place(models.Model):
+    name = models.CharField(max_length=128)
 
-    date = models.DateTimeField()
-    place = models.CharField(choices=[
-        "Venice", "Roncade", "Trento"
-    ])
-
-    guest_number = models.PositiveSmallIntegerField(default=2)
-    menu = models.ForeignKey(Menu)
-    cook = models.ForeignKey(Cook)
+    def __unicode__(self):
+        return self.name
 
 class Menu(models.Model):
     name = models.CharField(max_length=255)
@@ -92,14 +88,32 @@ class Menu(models.Model):
     contains_meat = models.BooleanField(default=False)
     contains_fish = models.BooleanField(default=False)
 
+    available_in = models.ManyToManyField(Place)
+
     def vegan_suitable(self):
         return not self.contains_meat and \
                not self.contains_fish and \
                 not self.contains_diary
 
+    def __unicode__(self):
+        return self.name
 
 class Cook(models.Model):
     name = models.CharField(max_length=128)
     phone_number = models.CharField(max_length=15)
 
+    def __unicode__(self):
+        return self.name
 
+class Booking(models.Model):
+    user = models.ForeignKey(User)
+
+    date = models.DateTimeField()
+    place = models.ForeignKey(Place)
+
+    guest_number = models.PositiveSmallIntegerField(default=2)
+    menu = models.ForeignKey(Menu)
+    cook = models.ForeignKey(Cook)
+
+    def __unicode__(self):
+        return self.user + " " + self.date

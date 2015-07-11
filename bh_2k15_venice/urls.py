@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from ..core import views
+from core import views
+
 urlpatterns = [
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
     url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_booked),
