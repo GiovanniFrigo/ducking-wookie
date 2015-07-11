@@ -46,33 +46,37 @@
             
             <div class="main clearfix">
               <form id="nl-form" class="nl-form">
-                I feel to eat 
+                <label>where</label>
                 <select>
-                  <option value="1" selected>any food</option>
-                  <option value="2">Indian</option>
-                  <option value="3">French</option>
-                  <option value="4">Japanese</option>
-                  <option value="2">Italian</option>
+                  <option value="1" selected>Roncade</option>
+                  <option value="2">Monopoli</option>
+                  <option value="3">Silea</option>
+                  <option value="4">Jesolo</option>
+                  <option value="2">Cittadella</option>
                 </select>
-                <br />in a
+                <br>
+                
+                <label>when</label>
                 <select>
-                  <option value="1" selected>standard</option>
-                  <option value="2">fancy</option>
-                  <option value="3">hip</option>
-                  <option value="4">traditional</option>
-                  <option value="2">romantic</option>
+                  <option value="1" selected>today</option>
+                  <option value="2">tomorrow</option>
+                  <option value="3">toyota</option>
                 </select>
-                restaurant
-                <br />at 
+                
+                <label>how many people</label>
+                <input type="text" value="" placeholder="0 people" data-subline="How many people?"/>
+
+                <label>menu</label>
+
                 <select>
-                  <option value="1" selected>anytime</option>
-                  <option value="1">7 p.m.</option>
-                  <option value="2">8 p.m.</option>
-                  <option value="3">9 p.m.</option>
+                  <option value="1" selected>fish (25€)</option>
+                  <option value="2">veggie (20€)</option>
+                  <option value="3">meat (25€)</option>
+                  <option value="3">random (30€)</option>
                 </select>
-                in <input type="text" value="" placeholder="any city" data-subline="For example: <em>Los Angeles</em> or <em>New York</em>"/>
+
                 <div class="nl-submit-wrap">
-                  <button class="nl-submit" type="submit">Find a restaurant</button>
+                  <button class="nl-submit" type="submit">Pay</button>
                 </div>
                 <div class="nl-overlay"></div>
               </form>
