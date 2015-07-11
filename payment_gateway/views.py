@@ -11,7 +11,7 @@ def generate_token(request):
         'af2678c533f0174b2837c844e303de02'
     )
 
-    return braintree.ClientToken.generate()
+    return HttpResponse(braintree.ClientToken.generate())
 
 
 def post_payment(request):
