@@ -19,6 +19,7 @@ from core import views
 
 urlpatterns = [
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
-    url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_booked),
+    url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_non_booked),
+    url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/booked/$', views.menu_place_booked),
     url(r'^admin/', include(admin.site.urls)),
 ]
