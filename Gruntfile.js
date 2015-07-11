@@ -21,10 +21,10 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'compressed'
+                    style: 'expanded'
                 },
                 files: {
-                    'css/build/global.css': 'css/*.scss'
+                    'css/build/global.css': 'css/main.scss'
                 }
             } 
         },
