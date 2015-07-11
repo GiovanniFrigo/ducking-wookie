@@ -214,51 +214,49 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
 } )( window );
 /*
-*   View array
-*/
+ *   View array
+ */
 var screens = ["location", "time", "people", "allergies", "menu"]; 
+var lastLocation;
 
 /*
-*   Handle UI views dynamic loading on screen  
-*/
-function load_frame_callback(screenName, container_id, on_complete) {
-    $.get(("screens/" + screenName + ".html"), function (data){
-          $(container_id).html(data).ready(on_complete());
-    });
-}
-
-function load_frame(screenName, container_id) {
-    $.get(("screens/" + screenName + ".html"), function (data){
-          $(container_id).html(data);
-    });
-}
-
-function replaceScreen(screenName, on_complete) {
-    if (arguments.length == 1)
-        load_frame(screenName, "#pageContent" );
-    else if (arguments.length == 2)
-        load_frame_callback(screenName, "#pageContent", on_complete );
-}
-
+ *  Handle UI views dynamic displaying on screen  
+ */
 function checkoutEvent() {
-    replaceScreen("checkout");
+    replaceScreen('checkout');
 }
 
+/*
+ *  Set booking entry
+ */
 function setEntry(value, elOriginal) {
     addParamToBooking(value, elOriginal);
+    $('#' + screens[screens.indexOf(elOriginal) + 1] + '-container').show();
+
+    // check if the user has set a different during the form input location from the previous one -> restart the form
+    if (elOriginal == 'location')
+        if (lastLocation != value && lastLocation != null)
+            hideAllViewsFromIndex(screens.indexOf(elOriginal) + 2);
 }
 
-/**
-*   Handle the routing of views
-*/
+function hideAllViewsFromIndex(idx) {
+    for (var i = screens.length - 1; i >= idx; i--) {
+        $('#' + screens[i] + '-container').hide();
+    };
+}
+
+/*
+ *   Handle the routing of views
+ */
 $(document).ready(function() {
-    // location listener    
-    $(document).on("#locationInput", 'change', function() {
-        // attach location dropdown listener
-        //addParamToBooking(booking, form_i, $( sender.target ).val());
-        //shrink current view
-        console.log("roncade");
-        // go to next screen
-        form_i++;
+    // hide all forms elements
+    $('.form-part').hide();
+    // show location form
+    $('#location-container').show();
+    //put listener to dropdown menus
+    $('#location-container').mousedown(function() {
+        if (booking.location != null) {
+            lastLocation = booking.location;
+        }
     });
 });
