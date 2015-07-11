@@ -20,7 +20,7 @@ from payment_gateway import views as payment_views
 
 urlpatterns = [
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
-    url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_non_booked),
+    url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_not_booked),
     url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/booked/$', views.menu_place_booked),
     url(r'^protoapi/payment/token/$', payment_views.generate_token),
     url(r'^protoapi/payment/pay/$', payment_views.post_payment),
