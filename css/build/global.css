@@ -1,2 +1,33 @@
-body{background:red}
-/*# sourceMappingURL=global.css.map */
+/*
+Error: Invalid CSS after "body ": expected selector or at-rule, was "{"
+        on line 6 of css/main.scss
+
+1: @import '../bower_components/skeleton/css/normalize';
+2: @import '../bower_components/skeleton/css/skeleton';
+3: 
+4: @import 'navbar'
+5: 
+6: body {
+7: 	background: aliceblue;
+8: }
+
+Backtrace:
+css/main.scss:6
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/scss/parser.rb:1162:in `expected'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/scss/parser.rb:1098:in `expected'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/scss/parser.rb:43:in `parse'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/engine.rb:403:in `_to_tree'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/engine.rb:378:in `_render_with_sourcemap'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/engine.rb:295:in `render_with_sourcemap'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/exec/sass_scss.rb:410:in `run'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/exec/sass_scss.rb:63:in `process_result'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/exec/base.rb:52:in `parse'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/lib/sass/exec/base.rb:19:in `parse!'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/lib/ruby/gems/2.1.0/gems/sass-3.4.15/bin/sass:13:in `<top (required)>'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/bin/sass:23:in `load'
+/Users/giuliomichelon/.rbenv/versions/2.1.5/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"body \": expected selector or at-rule, was \"{\"\A         on line 6 of css/main.scss\A \A 1: @import '../bower_components/skeleton/css/normalize';\A 2: @import '../bower_components/skeleton/css/skeleton';\A 3: \A 4: @import 'navbar'\A 5: \A 6: body {\A 7: 	background: aliceblue;\A 8: }"; }
