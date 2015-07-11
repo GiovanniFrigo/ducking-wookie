@@ -1,18 +1,18 @@
-function addParamToBooking(booking, param_i, content) {
-	switch (param_i) {
-		case 0:  // location
+function addParamToBooking(content, type) {
+	switch (type) {
+		case "location":  // location
 			booking.location = content;
 			break;
-		case 1:  // time
+		case "time":  // time
 			booking.time = content;
 			break;
-		case 2:  // people
+		case "people":  // people
 			booking.people = content;
 			break;
-		case 3:
+		case "allergies":
 			booking.allergies = content;
 			break;
-		case 4:
+		case "menu":
 			booking.menu = content;
 			break;
 	}
@@ -61,7 +61,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				self.fldOpen++;
 				self.fields.push( new NLField( self, el, 'input', self.fldOpen ) );
 			} );
-			this.overlay.addEventListener( 'click', function(ev) { self._closeFlds(); } );
+			this.overlay.addEventListener( 'click', function(ev) { 
+				self._closeFlds(); 
+			});
 			this.overlay.addEventListener( 'touchstart', function(ev) { self._closeFlds(); } );
 		},
 		_closeFlds : function() {
@@ -106,6 +108,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				}
 			} );
 			this.optionsList.innerHTML = ihtml;
+			this.optionsList.id = this.elOriginal.id;
 			this.fld.appendChild( this.toggle );
 			this.fld.appendChild( this.optionsList );
 			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
@@ -197,6 +200,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				this.toggle.innerHTML = this.getinput.value.trim() !== '' ? this.getinput.value : this.getinput.getAttribute( 'placeholder' );
 				this.elOriginal.value = this.getinput.value;
 			}
+
+			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
 		}
 	}
 
@@ -235,16 +240,20 @@ function checkoutEvent() {
     replaceScreen("checkout");
 }
 
+function setEntry(value, elOriginal) {
+    addParamToBooking(value, elOriginal);
+}
+
 /**
 *   Handle the routing of views
 */
-$(window).ready(function() {
+$(document).ready(function() {
     // location listener    
-    $( "#locationInput" ).change(function(sender) {
+    $(document).on("#locationInput", 'change', function() {
         // attach location dropdown listener
-        addParamToBooking(booking, form_i, $( sender.target ).val());
+        //addParamToBooking(booking, form_i, $( sender.target ).val());
         //shrink current view
-
+        console.log("roncade");
         // go to next screen
         form_i++;
     });

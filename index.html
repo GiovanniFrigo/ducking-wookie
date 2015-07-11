@@ -47,28 +47,26 @@
             <div class="main clearfix">
               <form id="nl-form" class="nl-form">
                 <label>where</label>
-                <select id="locationInput">
-                  <option value="1" selected>Roncade</option>
-                  <option value="2">Monopoli</option>
-                  <option value="3">Silea</option>
-                  <option value="4">Jesolo</option>
-                  <option value="2">Cittadella</option>
+                <select id="location">
+                  <option data-form-part="place" value="Roncade" selected>Roncade</option>
+                  <option data-form-part="place" value="Jesolo">Jesolo</option>
+                  <option data-form-part="place" value="Trento">Trento</option>
                 </select>
                 <br>
                 
                 <label>when</label>
-                <select>
+                <select id="time">
                   <option value="1" selected>today</option>
                   <option value="2">tomorrow</option>
                   <option value="3">toyota</option>
                 </select>
                 
                 <label>how many people</label>
-                <input type="text" value="" placeholder="0 people" data-subline="How many people?"/>
+                <input id="people" type="text" value="" placeholder="0 people" data-subline="How many people?"/>
 
                 <label>menu</label>
 
-                <select>
+                <select id="menu">
                   <option value="1" selected>fish (25€)</option>
                   <option value="2">veggie (20€)</option>
                   <option value="3">meat (25€)</option>

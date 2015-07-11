@@ -29,16 +29,20 @@ function checkoutEvent() {
     replaceScreen("checkout");
 }
 
+function setEntry(value, elOriginal) {
+    addParamToBooking(value, elOriginal);
+}
+
 /**
 *   Handle the routing of views
 */
-$(window).ready(function() {
+$(document).ready(function() {
     // location listener    
-    $( "#locationInput" ).change(function(sender) {
+    $(document).on("#locationInput", 'change', function() {
         // attach location dropdown listener
-        addParamToBooking(booking, form_i, $( sender.target ).val());
+        //addParamToBooking(booking, form_i, $( sender.target ).val());
         //shrink current view
-
+        console.log("roncade");
         // go to next screen
         form_i++;
     });

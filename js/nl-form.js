@@ -37,7 +37,9 @@
 				self.fldOpen++;
 				self.fields.push( new NLField( self, el, 'input', self.fldOpen ) );
 			} );
-			this.overlay.addEventListener( 'click', function(ev) { self._closeFlds(); } );
+			this.overlay.addEventListener( 'click', function(ev) { 
+				self._closeFlds(); 
+			});
 			this.overlay.addEventListener( 'touchstart', function(ev) { self._closeFlds(); } );
 		},
 		_closeFlds : function() {
@@ -82,6 +84,7 @@
 				}
 			} );
 			this.optionsList.innerHTML = ihtml;
+			this.optionsList.id = this.elOriginal.id;
 			this.fld.appendChild( this.toggle );
 			this.fld.appendChild( this.optionsList );
 			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
@@ -173,6 +176,8 @@
 				this.toggle.innerHTML = this.getinput.value.trim() !== '' ? this.getinput.value : this.getinput.getAttribute( 'placeholder' );
 				this.elOriginal.value = this.getinput.value;
 			}
+
+			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
 		}
 	}
 
