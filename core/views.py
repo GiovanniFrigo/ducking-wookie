@@ -88,8 +88,8 @@ def free_spots(date, place_obj):
         daily_booking_count = Booking.objects.filter(
             place=place_obj,
             menu=menu,
-            date__lt=date,
-            date__gt=date+datetime.timedelta(days=1)-datetime.timedelta(seconds=1)
+            date__gte=date,
+            date__lt=date+datetime.timedelta(days=1)-datetime.timedelta(seconds=1)
         ).count()
         result['%s' % menu.id] = menu.available_number_per_day - daily_booking_count
     return result
