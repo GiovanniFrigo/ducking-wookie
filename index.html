@@ -34,7 +34,7 @@
   <nav>
     <div class="container">
       <div class="row">
-        Gourmate 
+        <img src="img/gourmate_logo_white.png" width="140px" /> 
       </div> 
     </div>
   </nav>
@@ -80,7 +80,6 @@
             </div>
 
           </div>
-          <a id="proceedForm" class="button" href="#">Anchor button</a>
         </div>
       </div>
     </form>
@@ -92,24 +91,6 @@
   			var form_i = 0;
   			var booking = new Object();
   			booking.id =  $.now();
-
-  			$(window).ready(function() {
-
-  				replaceScreen(screens[form_i]);
-
-	  			$('#proceedForm').click(function () {
-	  				if (form_i < screens.length - 1) {
-	  					// put html content into the booking object
-	  					addParamToBooking(booking, form_i, $('.data').html());
-	  					// go to next screen
-	  					form_i++;
-	  					replaceScreen(screens[form_i]);
-	  				}
-	  				else {
-	  					checkoutEvent();
-	  				}
-	  			})
-  			});
   		</script>
 
 
