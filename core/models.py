@@ -116,4 +116,4 @@ class Booking(models.Model):
     cook = models.ForeignKey(Cook)
 
     def __unicode__(self):
-        return self.user + " " + self.date
+        return self.user.email + " " + str(self.date)
