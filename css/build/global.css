@@ -1001,7 +1001,7 @@ nav {
 }
 
 body, html {
-  font-size: 100%;
+  font-size: 16px;
   padding: 0;
   margin: 0;
 }
@@ -1144,7 +1144,7 @@ a:active {
 .nl-form {
   width: 100%;
   margin: 0.3em auto 0 auto;
-  font-size: 4em;
+  font-size: 2em;
   line-height: 1.5;
 }
 
@@ -1425,6 +1425,8 @@ body {
 label {
   text-transform: lowercase;
   font-variant: small-caps;
+  font-size: 22px;
+  margin: 1em 0 0 0;
 }
 
 /*# sourceMappingURL=global.css.map */
