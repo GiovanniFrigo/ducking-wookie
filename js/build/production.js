@@ -6,6 +6,15 @@ function addParamToBooking(booking, param_i, content) {
 		case 1:  // time
 			booking.time = content;
 			break;
+		case 2:  // people
+			booking.people = content;
+			break;
+		case 3:
+			booking.allergies = content;
+			break;
+		case 4:
+			booking.menu = content;
+			break;
 	}
 }
 /*! jQuery v2.1.4 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license */
@@ -202,7 +211,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 /*
 *   View array
 */
-var screens = ["location", "time", "people", "maxprice", "allergies", "menu"]; 
+var screens = ["location", "time", "people", "allergies", "menu"]; 
 
 /*
 *   Handle UI views dynamic loading on screen  
@@ -238,8 +247,9 @@ $(window).ready(function() {
     $( "#locationInput" ).change(function(sender) {
         // attach location dropdown listener
         addParamToBooking(booking, form_i, $( sender.target ).val());
+        //shrink current view
+
         // go to next screen
         form_i++;
-        // replace with string
     });
 });

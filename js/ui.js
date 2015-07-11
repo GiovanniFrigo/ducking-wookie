@@ -1,7 +1,7 @@
 /*
 *   View array
 */
-var screens = ["location", "time", "people", "maxprice", "allergies", "menu"]; 
+var screens = ["location", "time", "people", "allergies", "menu"]; 
 
 /*
 *   Handle UI views dynamic loading on screen  
@@ -37,8 +37,9 @@ $(window).ready(function() {
     $( "#locationInput" ).change(function(sender) {
         // attach location dropdown listener
         addParamToBooking(booking, form_i, $( sender.target ).val());
+        //shrink current view
+
         // go to next screen
         form_i++;
-        // replace with string
     });
 });
