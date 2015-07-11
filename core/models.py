@@ -70,9 +70,36 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Booking(models.Model):
     user = models.ForeignKey(User)
-    guest_number = models.PositiveSmallIntegerField(default=2)
+
     date = models.DateTimeField()
+    place = models.CharField(choices=[
+        "Venice", "Roncade", "Trento"
+    ])
+
+    guest_number = models.PositiveSmallIntegerField(default=2)
     menu = models.ForeignKey(Menu)
+    cook = models.ForeignKey(Cook)
 
 class Menu(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField()
+    price_per_person = models.SmallIntegerField(default=10)
+
+    # Allergy info
+    contains_grain = models.BooleanField(default=True)
+    contains_diary = models.BooleanField(default=False)
+    contains_nuts = models.BooleanField(default=False)
+    contains_meat = models.BooleanField(default=False)
+    contains_fish = models.BooleanField(default=False)
+
+    def vegan_suitable(self):
+        return not self.contains_meat and \
+               not self.contains_fish and \
+                not self.contains_diary
+
+
+class Cook(models.Model):
+    name = models.CharField(max_length=128)
+    phone_number = models.CharField(max_length=15)
+
+
