@@ -47,7 +47,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date', models.DateTimeField()),
-                ('place', models.CharField(max_length=15, choices=[(b'VE', b'Venice'), (b'Ro', b'Roncade'), (b'TN', b'Trento')])),
                 ('guest_number', models.PositiveSmallIntegerField(default=2)),
             ],
         ),
@@ -73,6 +72,18 @@ class Migration(migrations.Migration):
                 ('contains_fish', models.BooleanField(default=False)),
             ],
         ),
+        migrations.CreateModel(
+            name='Place',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=128)),
+            ],
+        ),
+        migrations.AddField(
+            model_name='menu',
+            name='available_in',
+            field=models.ManyToManyField(to='core.Place'),
+        ),
         migrations.AddField(
             model_name='booking',
             name='cook',
@@ -82,6 +93,11 @@ class Migration(migrations.Migration):
             model_name='booking',
             name='menu',
             field=models.ForeignKey(to='core.Menu'),
+        ),
+        migrations.AddField(
+            model_name='booking',
+            name='place',
+            field=models.ForeignKey(to='core.Place'),
         ),
         migrations.AddField(
             model_name='booking',
