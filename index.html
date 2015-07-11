@@ -16,6 +16,7 @@
  <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -40,14 +41,25 @@
         <h4>Giulio SPACCAS</h4>
         <p>This index.html page is a placeholder with the CSS, font and favicon. It's just waiting for you to add some content! If you need some help hit up the <a href="http://www.getskeleton.com">Skeleton documentation</a>.</p>
       </div>
-      <a class="button">Go to time</a>
+      <a id="proceedForm" class="button"><i class="fa fa-arrow-right"></i></a>
     </div>
   </div>
   		<script src="js/build/production.js"></script>
 
   		<script>
+  			var form_i = 0;
   			$(window).ready(function() {
-  				replaceScreen("location");
+  				replaceScreen(screens[form_i]);
+
+	  			$('#proceedForm').click(function () {
+	  				if (form_i < screens.length - 1) {
+	  					form_i++;
+	  					replaceScreen(screens[form_i]);
+	  				}
+	  				else {
+	  					checkoutEvent();
+	  				}
+	  			})
   			});
   		</script>
 

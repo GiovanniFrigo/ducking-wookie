@@ -1,4 +1,9 @@
 /*
+*   View array
+*/
+var screens = ["location", "time", "people", "maxprice", "allergies", "menu"]; 
+
+/*
 *   Handle UI views dynamic loading on screen  
 */
 function load_frame_callback(page, container_id, on_complete) {
@@ -20,3 +25,6 @@ function replaceScreen(screenName, on_complete) {
         load_frame_callback( "screens/" + screenName + ".html", "#pageContent", on_complete );
 }
 
+function checkoutEvent() {
+    replaceScreen("checkout");
+}
