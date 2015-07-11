@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import User, Booking, Menu, Cook
+from core.models import User, Booking, Menu, Cook, Place
 
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
@@ -17,3 +17,8 @@ admin.site.register(Menu, MenuAdmin)
 class CookAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 admin.site.register(Cook, CookAdmin)
+
+class PlaceAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+admin.site.register(Place, PlaceAdmin)
+

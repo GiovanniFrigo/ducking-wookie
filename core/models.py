@@ -67,6 +67,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.username = self.email
         super(User, self).save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
+class Place(models.Model):
+    name = models.CharField(max_length=128)
+
 class Menu(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -79,6 +82,8 @@ class Menu(models.Model):
     contains_meat = models.BooleanField(default=False)
     contains_fish = models.BooleanField(default=False)
 
+    available_in = models.ManyToManyField(Place)
+
     def vegan_suitable(self):
         return not self.contains_meat and \
                not self.contains_fish and \
@@ -89,14 +94,11 @@ class Cook(models.Model):
     name = models.CharField(max_length=128)
     phone_number = models.CharField(max_length=15)
 
-
 class Booking(models.Model):
     user = models.ForeignKey(User)
 
     date = models.DateTimeField()
-    place = models.CharField(max_length=15,choices=(
-        ("VE", "Venice"), ("Ro", "Roncade"), ("TN","Trento")
-    ))
+    place = models.ForeignKey(Place)
 
     guest_number = models.PositiveSmallIntegerField(default=2)
     menu = models.ForeignKey(Menu)
