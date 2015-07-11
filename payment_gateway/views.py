@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import braintree
-from django.http.response import HttpResponseBadRequest, HttpResponse
+from django.http.response import HttpResponseBadRequest, JsonResponse
 
 # Create your views here.
 def generate_token(request):
@@ -11,7 +11,9 @@ def generate_token(request):
         'af2678c533f0174b2837c844e303de02'
     )
 
-    return HttpResponse(braintree.ClientToken.generate())
+    token = braintree.ClientToken.generate()
+
+    return JsonResponse({"token": token})
 
 
 def post_payment(request):
