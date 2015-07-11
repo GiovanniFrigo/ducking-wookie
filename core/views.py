@@ -7,7 +7,7 @@ from models import Booking, Menu, Place
 
 
 def menu_place(request, place):
-    place_obj = Place.objects.get(name__iexaxt=place)
+    place_obj = Place.objects.get(name__iexact=place)
     menu_set = {'menus': list(Menu.objects.filter(available_in=place_obj).values())}
 
     return JsonResponse(menu_set)
@@ -58,7 +58,7 @@ def menu_place_booked(request, place, year, month):
 
     end_month = add_months(month_selected, 1) + datetime.timedelta(days=-1)
     data = {'menus': []}
-    place_obj = Place.objects.get(name__iexaxt=place)
+    place_obj = Place.objects.get(name__iexact=place)
     menus_in_place = Menu.objects.filter(available_in=place_obj)
     for menu in menus_in_place:
         closed_spots = list(
@@ -125,7 +125,7 @@ def menu_place_not_booked(request, place, year, month):
     }
     if month not in months:
         raise Http404()
-    place_obj = Place.objects.get(name__iexaxt=place)
+    place_obj = Place.objects.get(name__iexact=place)
 
     month_num = months_dict[month]
     month_selected = datetime.datetime(year=int(year), month=month_num, day=1)
