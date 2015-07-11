@@ -21,7 +21,7 @@ from payment_gateway import views as payment_views
 urlpatterns = [
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
     url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_booked),
-    url(r'^protoapi/payment/token/$', payment_views.views.generate_token),
-    url(r'^protoapi/payment/pay/$', payment_views.views.post_payment),
+    url(r'^protoapi/payment/token/$', payment_views.generate_token),
+    url(r'^protoapi/payment/pay/$', payment_views.post_payment),
     url(r'^admin/', include(admin.site.urls)),
 ]
