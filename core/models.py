@@ -90,6 +90,8 @@ class Menu(models.Model):
 
     available_in = models.ManyToManyField(Place)
 
+    available_number_per_day = models.PositiveIntegerField(default=1)
+
     def vegan_suitable(self):
         return not self.contains_meat and \
                not self.contains_fish and \
