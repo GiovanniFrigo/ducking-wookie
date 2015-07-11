@@ -128,13 +128,20 @@ def menu_place_not_booked(request, place, year, month):
     place_obj = Place.objects.get(name__iexact=place)
 
     month_num = months_dict[month]
-    month_selected = datetime.datetime(year=int(year), month=month_num, day=1)
+    year = int(year)
+    month_selected = datetime.datetime(year=year, month=month_num, day=1)
 
     end_month = add_months(month_selected, 1) + datetime.timedelta(days=-1)
     delta = end_month - month_selected
     calendar = {'calendar': {}}
-    for i in range(delta.days):
-        working_date = month_selected+datetime.timedelta(days=i)
+    from calendar import monthrange
+    # for i in range(delta.days):
+    for i in range(1, monthrange(year, month_num)+1):
+        working_date = month_selected.replace(
+            year=month_selected.year,
+            month=month_selected.month,
+            day=i
+        )
         calendar['calendar']['%s' % i] = free_spots(working_date, place_obj)
 
     return JsonResponse(calendar)

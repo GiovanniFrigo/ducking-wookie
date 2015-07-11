@@ -23,7 +23,7 @@ SECRET_KEY = 'i$@4_cfw*t9w)ekk=$03(20(-hj4t1^7w$b-k9!y%z-i-8lvb='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'core.User'
 
