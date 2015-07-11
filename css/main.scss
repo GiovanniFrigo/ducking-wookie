@@ -1,3 +1,8 @@
+@import '../bower_components/skeleton/css/normalize';
+@import '../bower_components/skeleton/css/skeleton';
+
+@import 'navbar';
+
 body {
-	background: red;
+	background: aliceblue;
 }
