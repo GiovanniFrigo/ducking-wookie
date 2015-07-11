@@ -8,7 +8,7 @@ from models import Booking, Menu, Place
 
 def menu_place(request, place):
     place_obj = Place.objects.get(name=place)
-    menu_set = Menu.objects.filter(available_in=place_obj).values()
+    menu_set = list(Menu.objects.filter(available_in=place_obj).values())
 
     return JsonResponse(menu_set)
 
