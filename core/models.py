@@ -67,8 +67,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.username = self.email
         super(User, self).save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
+    def __unicode__(self):
+        return self.email
+
 class Place(models.Model):
     name = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.name
 
 class Menu(models.Model):
     name = models.CharField(max_length=255)
@@ -89,10 +95,15 @@ class Menu(models.Model):
                not self.contains_fish and \
                 not self.contains_diary
 
+    def __unicode__(self):
+        return self.name
 
 class Cook(models.Model):
     name = models.CharField(max_length=128)
-    phone_number = models.CharField(max_length=15)
+    phone_number = modls.CharField(max_length=15)
+
+    def __unicode__(self):
+        return self.name
 
 class Booking(models.Model):
     user = models.ForeignKey(User)
@@ -103,3 +114,6 @@ class Booking(models.Model):
     guest_number = models.PositiveSmallIntegerField(default=2)
     menu = models.ForeignKey(Menu)
     cook = models.ForeignKey(Cook)
+
+    def __unicode__(self):
+        return self.user + " " + self.date
