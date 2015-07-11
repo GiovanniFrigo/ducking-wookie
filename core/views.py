@@ -8,7 +8,7 @@ from models import Booking, Menu, Place
 
 def menu_place(request, place):
     place_obj = Place.objects.get(name=place)
-    menu_set = {'menu': list(Menu.objects.filter(available_in=place_obj).values())}
+    menu_set = {'menus': list(Menu.objects.filter(available_in=place_obj).values())}
 
     return JsonResponse(menu_set)
 
@@ -55,20 +55,20 @@ def menu_place_booked(request, place, year, month):
         day = min(sourcedate.day,calendar.monthrange(year,month)[1])
         return datetime.datetime(year=year,month=month,day=1) # hardcoded 1 instead of `day` because I need first day of this month
     end_month = add_months(month_selected, 1) + datetime.timedelta(days=-1)
-    data = {}
-    data['menus'] = []
-    # menu_set = Menu.objects.filter(school__place=place)
+    data = {'menus': []}
     place_obj = Place.objects.get(name=place)
     menus_in_place = Menu.objects.filter(available_in=place_obj)
     for menu in menus_in_place:
-        closed_spots = Booking.objects.filter(
-            place=place_obj,
-            menu=menu,
-            date__lt=end_month,
-            date__gt=month_selected
-        ).values(
-            'id',
-            'date'
+        closed_spots = list(
+            Booking.objects.filter(
+                place=place_obj,
+                menu=menu,
+                date__lt=end_month,
+                date__gt=month_selected
+            ).values(
+                'id',
+                'date'
+            )
         )
         data['menus'].append({
             'id': menu.id,
