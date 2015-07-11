@@ -67,18 +67,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.username = self.email
         super(User, self).save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
-class Booking(models.Model):
-    user = models.ForeignKey(User)
-
-    date = models.DateTimeField()
-    place = models.CharField(choices=[
-        "Venice", "Roncade", "Trento"
-    ])
-
-    guest_number = models.PositiveSmallIntegerField(default=2)
-    menu = models.ForeignKey(Menu)
-    cook = models.ForeignKey(Cook)
-
 class Menu(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -102,3 +90,14 @@ class Cook(models.Model):
     phone_number = models.CharField(max_length=15)
 
 
+class Booking(models.Model):
+    user = models.ForeignKey(User)
+
+    date = models.DateTimeField()
+    place = models.CharField(max_length=15,choices=(
+        ("VE", "Venice"), ("Ro", "Roncade"), ("TN","Trento")
+    ))
+
+    guest_number = models.PositiveSmallIntegerField(default=2)
+    menu = models.ForeignKey(Menu)
+    cook = models.ForeignKey(Cook)
