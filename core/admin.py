@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import User
+from core.models import User, Booking, Menu, Cook
 
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
