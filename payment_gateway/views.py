@@ -29,7 +29,7 @@ def post_payment(request):
         user, created = get_user_model().objects.get_or_create(email=request.POST.get('email'), username=request.POST.get('email'))
         menu = Menu.objects.get(id=int(request.POST.get('menu_id')))
         n_people = int(request.POST.get('n_people'))
-        date_meal = datetime.datetime(request.POST.get('year'), request.POST.get('month'), request.POST.get('day'))
+        date_meal = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), int(request.POST.get('day')))
         if get_availability_count(date_meal, menu, place) > 0:
             booking = Booking.objects.create(user=user, place=place, guest_number=n_people, menu=menu, date=date_meal)
         else:
