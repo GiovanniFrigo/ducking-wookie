@@ -12,9 +12,13 @@ from models import Booking, Menu, Place
 
 def menu_place(request, place):
     place_obj = Place.objects.get(name__iexact=place)
-    menu_set = {'menus': list(Menu.objects.filter(available_in=place_obj).values())}
+    menu_list = []
+    for listitem in list(Menu.objects.filter(available_in=place_obj).values()):
+        listitem['photo'] = Menu.objects.get(id=listitem['id']).photo.url
+        menu_list.append(listitem)
+    menu_dict = {'menus': menu_list}
 
-    return JsonResponse(menu_set)
+    return JsonResponse(menu_dict)
 
 def add_months(sourcedate, months):
     import calendar
