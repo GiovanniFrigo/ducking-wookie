@@ -23,10 +23,12 @@ function setEntry(value, elOriginal) {
         if (lastLocation != value && lastLocation != null)
             hideAllViewsFromIndex(screens.indexOf(elOriginal) + 1);
         // get availabilities from server using the location
-        $.get("http://gourmate.herokuapp.com/protoapi/menu/Treviso/")
-            .done(function(data) {
-                console.log(data)
-            });
+        $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/Treviso/", function( data ) {
+          var items = [];
+          $.each( data, function( key, val ) {
+            //items.push( "<li id='" + key + "'>" + val + "</li>" );
+          });
+        });
     }
 
     // display next step
