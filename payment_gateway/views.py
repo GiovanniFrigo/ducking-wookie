@@ -6,13 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 # Create your views here.
 def generate_token(request):
-    braintree.Configuration.configure(
-        braintree.Environment.Sandbox,
-        '7k9mcqvpy3bzn5c7',
-        'rfyzzc5ftvxwkdmm',
-        'af2678c533f0174b2837c844e303de02'
-    )
-
     token = braintree.ClientToken.generate()
 
     return JsonResponse({"token": token})
