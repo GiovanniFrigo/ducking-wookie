@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import braintree
-from django.http.response import HttpResponseBadRequest, JsonResponse
+from django.http.response import HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -20,10 +20,10 @@ def generate_token(request):
 
 @csrf_exempt
 def post_payment(request):
-    if "payment_method_nonce" not in request.form:
+    if request.POST.get("payment_method_nonce") is None:
         return HttpResponseBadRequest()
 
-    nonce = request.form["payment_method_nonce"]
+    nonce = request.POST.get("payment_method_nonce")
 
     result = braintree.Transaction.sale({
         "amount": "10.00",
