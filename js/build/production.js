@@ -270,7 +270,7 @@ function setEntry(value, elOriginal) {
 }
 
 function hideAllViewsFromIndex(idx) {
-    // hide all the screens
+    // hide all the screens from idx on
     for (var i = screens.length - 1; i >= idx; i--) {
         $('#' + screens[i] + '-container').hide();
     };
