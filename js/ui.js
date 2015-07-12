@@ -25,7 +25,6 @@ function setEntry(value, elOriginal) {
     // set the params
     addParamToBooking(value, elOriginal);
     // set next step index
-    console.log(elOriginal);
     var next_step = screens.indexOf(elOriginal) + 1;
 
     if (elOriginal == 'location') {
@@ -105,7 +104,6 @@ function setEntry(value, elOriginal) {
             var json = available_days[day];
             for (var key in json) {
                 if (key == id && json[key] > 1) {
-                    console.log(key + ": " + json[key]);
                     // update the ui
                     $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
                         $('#menu-'+item.id).css("background-image", "url("+item.photo+")");  
@@ -116,7 +114,6 @@ function setEntry(value, elOriginal) {
             }
         });
     } else if( elOriginal == 'email') {
-        console.log("validating email");
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         if( re.test(value)==false )
             return;

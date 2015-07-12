@@ -264,7 +264,6 @@
 				}
 			}
 
-			console.log("set entry");
 			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
 		},
 		_getMonthName: function(month) {
