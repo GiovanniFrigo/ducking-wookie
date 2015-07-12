@@ -277,10 +277,11 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 					// update selected index value
 					this.selectedIdx = idx +1 ;
 					// update original select element´s value
-					this.elOriginal.value = this.toggle.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
+					this.elOriginal.value = opt.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
 				}
 			}
 
+			console.log("set entry");
 			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
 		},
 		_getMonthName: function(month) {
@@ -343,13 +344,7 @@ function setEntry(value, elOriginal) {
             $.each( data.menus, function( i, item ) {
                 // save menus into a variable
                 available_menus.push(item);
-                // update the ui
-                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
-                $('.menu-tile-link').click(function() {
-                    booking.menu_id = this.id;
-                    checkoutEvent();
-                    self.location = "#checkout";
-                });
+                
             });
         });
         // get menu time availabilities from server
@@ -359,6 +354,30 @@ function setEntry(value, elOriginal) {
             $.each( time_data.calendar, function( i, item ) {
                 available_days.push(item);
             });
+        });
+    }
+
+    else if (elOriginal == 'date') {
+        $.each(available_menus, function(i, item) {
+            // clear menu list
+            $('#menu-container .menu-row').html("");
+            // check if menu is available that day
+            var day = booking.time;
+            var id = item.id;
+            var json = available_days[day];
+            for (var key in json) {
+                if (key == id && json[key] > 1) {
+                    console.log(key + ": " + json[key]);
+                    // update the ui
+                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
+                        $('#menu-'+item.id).css("background-image", "url("+item.photo+")");  
+                        $('.menu-tile-link').click(function() {
+                            booking.menu_id = this.id;
+                            checkoutEvent();
+                            self.location = "#checkout";
+                        });
+                }
+            }
         });
     }
 
