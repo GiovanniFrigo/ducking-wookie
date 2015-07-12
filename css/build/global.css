@@ -1136,6 +1136,10 @@ a:active {
     display: none;
   }
 }
+.menu-tile-link:hover {
+  color: white;
+}
+
 .menu-column {
   height: 120px;
   background-color: #FFF;
@@ -1197,7 +1201,7 @@ div#time-container .nl-field {
 }
 
 .selected {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  border: 4px solid #1abc9c;
 }
 
 @font-face {
