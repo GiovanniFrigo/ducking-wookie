@@ -1,7 +1,7 @@
 /*
  *   View array
  */
-var screens = ["location", "date", "people", "menu"];//"allergies", "menu"]; 
+var screens = ["location", "date", "people", "menu", "email", "address"];//"allergies", "menu"]; 
 var lastLocation;
 
 /*
@@ -25,6 +25,7 @@ function setEntry(value, elOriginal) {
     // set the params
     addParamToBooking(value, elOriginal);
     // set next step index
+    console.log(elOriginal);
     var next_step = screens.indexOf(elOriginal) + 1;
 
     if (elOriginal == 'location') {
@@ -44,9 +45,7 @@ function setEntry(value, elOriginal) {
                 // update the ui
                 $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
                 $('.menu-tile-link').click(function() {
-                    booking.menu_id = this.id;
-                    checkoutEvent();
-                    self.location = "#checkout";
+                    setEntry(this.id, "menu")
                 });
             });
         });
