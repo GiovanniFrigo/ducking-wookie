@@ -135,8 +135,9 @@ def menu_place_not_booked(request, place, year, month):
     delta = end_month - month_selected
     calendar = {'calendar': {}}
     from calendar import monthrange
+    num_of_days =  monthrange(year, month_num)[1]
     # for i in range(delta.days):
-    for i in range(1, monthrange(year, month_num)+1):
+    for i in range(1, num_of_days+1):
         working_date = month_selected.replace(
             year=month_selected.year,
             month=month_selected.month,
