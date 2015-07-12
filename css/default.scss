@@ -146,8 +146,10 @@ a:active {
 
 ul#date {
 	position: absolute;
-	transform: translate(-50%,-50%);
-	min-width: 540px;
+	left: 50%;
+	margin-left: -270px;
+	/*transform: translate(-50%,-50%);*/
+	width: 540px;
 	left: 50%;
   	top: 50%;
 	li {
@@ -164,7 +166,7 @@ ul#date {
 	}
 	li.sunday,
 	li.sunday.disabled:hover {
-		background-color: rgb(240, 90, 90);
+		/*background-color: rgb(240, 90, 90);*/
 	}
 
 	div.month {

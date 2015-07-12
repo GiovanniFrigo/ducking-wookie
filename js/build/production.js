@@ -3,7 +3,7 @@ function addParamToBooking(content, type) {
 		case "location":  // location
 			booking.location = content;
 			break;
-		case "time":  // time
+		case "date":  // time
 			booking.time = content;
 			break;
 		case "people":  // people
@@ -277,7 +277,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 					// update selected index value
 					this.selectedIdx = idx +1 ;
 					// update original select element´s value
-					this.elOriginal.value = this.elOriginal.children[ this.selectedIdx ].value;
+					this.elOriginal.value = this.toggle.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
 				}
 			}
 
@@ -303,7 +303,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 /*
  *   View array
  */
-var screens = ["location", "time", "people", "menu"];//"allergies", "menu"]; 
+var screens = ["location", "date", "people", "menu"];//"allergies", "menu"]; 
 var lastLocation;
 
 /*
@@ -335,6 +335,7 @@ function setEntry(value, elOriginal) {
             hideAllViewsFromIndex(next_step);
             // clear menu list
             available_menus.length = 0;
+            available_days.length = 0;
             $('#menu-container .menu-row').html("");
         }
         // get menu availabilities from server using the location
@@ -356,7 +357,7 @@ function setEntry(value, elOriginal) {
         $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/" + d.getFullYear() + "/" + monthNames[d.getMonth()] + "/", function ( time_data ) {
             // each object represent
             $.each( time_data.calendar, function( i, item ) {
-
+                available_days.push(item);
             });
         });
     }

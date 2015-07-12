@@ -1,7 +1,7 @@
 /*
  *   View array
  */
-var screens = ["location", "time", "people", "menu"];//"allergies", "menu"]; 
+var screens = ["location", "date", "people", "menu"];//"allergies", "menu"]; 
 var lastLocation;
 
 /*
@@ -33,6 +33,7 @@ function setEntry(value, elOriginal) {
             hideAllViewsFromIndex(next_step);
             // clear menu list
             available_menus.length = 0;
+            available_days.length = 0;
             $('#menu-container .menu-row').html("");
         }
         // get menu availabilities from server using the location
@@ -54,7 +55,7 @@ function setEntry(value, elOriginal) {
         $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/" + d.getFullYear() + "/" + monthNames[d.getMonth()] + "/", function ( time_data ) {
             // each object represent
             $.each( time_data.calendar, function( i, item ) {
-
+                available_days.push(item);
             });
         });
     }

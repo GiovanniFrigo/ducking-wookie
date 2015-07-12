@@ -3,7 +3,7 @@ function addParamToBooking(content, type) {
 		case "location":  // location
 			booking.location = content;
 			break;
-		case "time":  // time
+		case "date":  // time
 			booking.time = content;
 			break;
 		case "people":  // people
