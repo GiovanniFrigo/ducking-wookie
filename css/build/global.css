@@ -1137,6 +1137,23 @@ a:active {
     display: none;
   }
 }
+.menu-column {
+  height: 120px;
+  background-color: #FFF;
+  cursor: pointer;
+}
+
+@media (min-width: 30em) {
+  .menu-row {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+
+  .menu-col {
+    display: table-cell;
+  }
+}
 @font-face {
   font-family: 'nlicons';
   src: url("../../fonts/nlicons/nlicons.eot");

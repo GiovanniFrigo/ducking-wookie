@@ -216,7 +216,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 /*
  *   View array
  */
-var screens = ["location", "time", "people", "allergies", "menu"]; 
+var screens = ["location", "time", "people", "menu"];//"allergies", "menu"]; 
 var lastLocation;
 
 /*
@@ -235,14 +235,21 @@ function setEntry(value, elOriginal) {
 
     if (elOriginal == 'location') {
         // check if the user has set a different during the form input location from the previous one -> restart the form
-        if (lastLocation != value && lastLocation != null)
+        if (lastLocation != value && lastLocation != null) {
             hideAllViewsFromIndex(screens.indexOf(elOriginal) + 1);
+            // clear menu list
+            available_menus.length = 0;
+            $('#menu-container .menu-row').html("");
+        }
         // get availabilities from server using the location
-        $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/Treviso/", function( data ) {
-          var items = [];
-          $.each( data, function( key, val ) {
-            //items.push( "<li id='" + key + "'>" + val + "</li>" );
-          });
+        $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/", function( data ) {
+            $.each( data.menus, function( i, item ) {
+                // save menus into a variable
+                available_menus.push(item);
+                // update the ui
+                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile\" id=\"menu-" + item.id + "\"><div>" + item.name + "<\/div><\/div>")
+            });
+
         });
     }
 
