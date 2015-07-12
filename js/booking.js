@@ -1,18 +1,18 @@
-function addParamToBooking(booking, param_i, content) {
-	switch (param_i) {
-		case 0:  // location
+function addParamToBooking(content, type) {
+	switch (type) {
+		case "location":  // location
 			booking.location = content;
 			break;
-		case 1:  // time
+		case "time":  // time
 			booking.time = content;
 			break;
-		case 2:  // people
+		case "people":  // people
 			booking.people = content;
 			break;
-		case 3:
+		case "allergies":
 			booking.allergies = content;
 			break;
-		case 4:
+		case "menu":
 			booking.menu = content;
 			break;
 	}

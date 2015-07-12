@@ -1,18 +1,18 @@
-function addParamToBooking(booking, param_i, content) {
-	switch (param_i) {
-		case 0:  // location
+function addParamToBooking(content, type) {
+	switch (type) {
+		case "location":  // location
 			booking.location = content;
 			break;
-		case 1:  // time
+		case "time":  // time
 			booking.time = content;
 			break;
-		case 2:  // people
+		case "people":  // people
 			booking.people = content;
 			break;
-		case 3:
+		case "allergies":
 			booking.allergies = content;
 			break;
-		case 4:
+		case "menu":
 			booking.menu = content;
 			break;
 	}
@@ -65,7 +65,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				self.fldOpen++;
 				self.fields.push( new NLField( self, el, 'input', self.fldOpen ) );
 			} );
-			this.overlay.addEventListener( 'click', function(ev) { self._closeFlds(); } );
+			this.overlay.addEventListener( 'click', function(ev) { 
+				self._closeFlds(); 
+			});
 			this.overlay.addEventListener( 'touchstart', function(ev) { self._closeFlds(); } );
 		},
 		_closeFlds : function() {
@@ -110,6 +112,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				}
 			} );
 			this.optionsList.innerHTML = ihtml;
+			this.optionsList.id = this.elOriginal.id;
 			this.fld.appendChild( this.toggle );
 			this.fld.appendChild( this.optionsList );
 			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
@@ -201,6 +204,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				this.toggle.innerHTML = this.getinput.value.trim() !== '' ? this.getinput.value : this.getinput.getAttribute( 'placeholder' );
 				this.elOriginal.value = this.getinput.value;
 			}
+
+			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
 		}
 	}
 
@@ -209,47 +214,67 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
 } )( window );
 /*
-*   View array
-*/
-var screens = ["location", "time", "people", "allergies", "menu"]; 
+ *   View array
+ */
+var screens = ["location", "time", "people", "menu"];//"allergies", "menu"]; 
+var lastLocation;
 
 /*
-*   Handle UI views dynamic loading on screen  
-*/
-function load_frame_callback(screenName, container_id, on_complete) {
-    $.get(("screens/" + screenName + ".html"), function (data){
-          $(container_id).html(data).ready(on_complete());
-    });
-}
-
-function load_frame(screenName, container_id) {
-    $.get(("screens/" + screenName + ".html"), function (data){
-          $(container_id).html(data);
-    });
-}
-
-function replaceScreen(screenName, on_complete) {
-    if (arguments.length == 1)
-        load_frame(screenName, "#pageContent" );
-    else if (arguments.length == 2)
-        load_frame_callback(screenName, "#pageContent", on_complete );
-}
-
+ *  Handle UI views dynamic displaying on screen  
+ */
 function checkoutEvent() {
-    replaceScreen("checkout");
+    replaceScreen('checkout');
 }
 
-/**
-*   Handle the routing of views
-*/
-$(window).ready(function() {
-    // location listener    
-    $( "#locationInput" ).change(function(sender) {
-        // attach location dropdown listener
-        addParamToBooking(booking, form_i, $( sender.target ).val());
-        //shrink current view
+/*
+ *  Set booking entry
+ */
+function setEntry(value, elOriginal) {
+    // set the params
+    addParamToBooking(value, elOriginal);
 
-        // go to next screen
-        form_i++;
+    if (elOriginal == 'location') {
+        // check if the user has set a different during the form input location from the previous one -> restart the form
+        if (lastLocation != value && lastLocation != null) {
+            hideAllViewsFromIndex(screens.indexOf(elOriginal) + 1);
+            // clear menu list
+            available_menus.length = 0;
+            $('#menu-container .menu-row').html("");
+        }
+        // get availabilities from server using the location
+        $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/", function( data ) {
+            $.each( data.menus, function( i, item ) {
+                // save menus into a variable
+                available_menus.push(item);
+                // update the ui
+                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile\" id=\"menu-" + item.id + "\"><div>" + item.name + "<\/div><\/div>")
+            });
+
+        });
+    }
+
+    // display next step
+    $('#' + screens[screens.indexOf(elOriginal) + 1] + '-container').show();
+}
+
+function hideAllViewsFromIndex(idx) {
+    for (var i = screens.length - 1; i >= idx; i--) {
+        $('#' + screens[i] + '-container').hide();
+    };
+}
+
+/*
+ *   Handle the routing of views
+ */
+$(document).ready(function() {
+    // hide all forms elements
+    $('.form-part').hide();
+    // show location form
+    $('#location-container').show();
+    //put listener to dropdown menus
+    $('#location-container').mousedown(function() {
+        if (booking.location != null) {
+            lastLocation = booking.location;
+        }
     });
 });
