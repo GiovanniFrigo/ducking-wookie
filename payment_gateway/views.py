@@ -59,4 +59,4 @@ def post_payment(request):
             errors = errors + "\nattribute: " + error.attribute + \
                                 "\n  code: " + error.code + \
                                 "\n  message: " + error.message
-        return HttpResponse(errors)
+        return HttpResponse("result: %s // res.err: %s // error: %s" % (str(result), str(result.errors), errors,))
