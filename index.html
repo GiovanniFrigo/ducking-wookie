@@ -40,12 +40,12 @@
   </nav>
 
   <div class="container">
-      <div class="row">
-        <div class="ten columns form-column">
-          <div id="pageContent">
-            
-            <div class="main clearfix">
-              <form id="nl-form" class="nl-form">
+  	<div class="row">
+      <div class="ten columns form-column">
+        <div id="pageContent">
+
+          <div class="main clearfix">
+            <form id="nl-form" class="nl-form">
                 <div id="location-container" class="form-part">
 		            <label>where</label>
 		            <select id="location">
@@ -101,21 +101,21 @@
                 	<input id="people" type="text" value="" placeholder="0 people" data-subline="How many people?"/>
                 </div>
 
-                <div id="menu-container" class="form-part">
-		            <label>menu</label>
-		            <div class="menu-row">
-		            </div>
-		            <!--<select id="menu">
-		              <option value="1" selected>fish (25€)</option>
-		              <option value="2">veggie (20€)</option>
-		              <option value="3">meat (25€)</option>
-		              <option value="3">random (30€)</option>
-		            </select>-->
-		        </div>
-                <div class="nl-overlay"></div>
-              </form>
-            </div>
-            
+              <!-- how many ppl -->
+              <div id="people-container" class="form-part">
+                <label>how many people</label>
+                <input id="people" type="text" value="" placeholder="0 people" data-subline="How many people?"/>
+              </div>
+
+              <div id="menu-container" class="form-part">
+                <label>menu</label>
+                <div class="menu-row">
+                </div>
+              </div>
+              <div class="nl-overlay"></div>
+            </form>
+          </div>
+          
 			<form id="checkout" method="post" action="/checkout">
 			  <div id="payment-form"></div>
 			  <input type="submit" value="Pay $10">
@@ -124,6 +124,7 @@
           </div>
         </div>
       </div>
+    </div>
   </div>
 	
 	<script src="js/build/production.js"></script>
