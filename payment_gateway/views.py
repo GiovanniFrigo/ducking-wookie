@@ -41,7 +41,7 @@ def post_payment(request):
 
     created_booking = Booking.objects.get(id=booking.id)
     result = braintree.Transaction.sale({
-        "amount": "%s.00" % created_booking.menu.price_per_person*created_booking.guest_number,  #"10.00",
+        "amount": "%s" % str(created_booking.menu.price_per_person*created_booking.guest_number),  #"10.00",
         "payment_method_nonce": nonce
     })
 
