@@ -80,7 +80,7 @@ class Menu(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price_per_person = models.SmallIntegerField(default=10)
-    photo = models.ImageField(blank=True)
+    photo = models.CharField(max_length=1000, blank=True)
 
     # Allergy info
     contains_grain = models.BooleanField(default=True)
