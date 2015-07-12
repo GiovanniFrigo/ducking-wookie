@@ -1183,6 +1183,11 @@ ul#date div.month {
   color: #b14943;
 }
 
+ul li.nl-ti-input input[type="text"] {
+  line-height: 1em;
+  height: 1.2em;
+}
+
 div#time-container .nl-field {
   display: block !important;
 }
@@ -1487,6 +1492,9 @@ label {
   text-align: center;
 }
 
+.menu-tile-link {
+  color: white;
+}
 .menu-tile-link h4 {
   font-size: 30px;
   margin: 0;

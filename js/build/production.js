@@ -386,25 +386,6 @@ function setEntry(value, elOriginal) {
         $.each(available_days, function(i, item) {
             
         });
-        /*
-        $('#date').click(function() {
-            $( "li" ).each(function( index ) {
-                // check if day is available
-                var available = false;
-                if ($(this).text().length > 0) {
-                    var json = available_days[$( this ).text() - 1];
-                    for (var key in json) {
-                        if (json[key] != 0) {
-                            available = true;
-                            break;
-                        }
-                    }
-                    if (!available) {
-                        $(this).toggle('sunday');
-                    }
-                }
-            });  
-        });*/
     }
 
     else if (elOriginal == 'date') {
@@ -416,10 +397,10 @@ function setEntry(value, elOriginal) {
             var id = item.id;
             var json = available_days[day];
             for (var key in json) {
-                if (key == id && json[key] > 1) {
+                if (key == id && json[key] > 0) {
                     // update the ui
                     $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
-                        $('#menu-'+item.id).css("background-image", "url("+item.photo+")");  
+                        $('#menu-'+item.id +' :first').css({"background-image": "url("+item.photo+")", "background-size": "cover"});  
                         $('.menu-tile-link').click(function() {
                             setEntry( this.id, "menu");;
                         });
