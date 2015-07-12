@@ -989,7 +989,6 @@ nav {
   font-weight: 100;
   text-align: center;
   width: 100%;
-  margin-bottom: 1em;
   font-size: 2em;
   padding: .3em;
 }
@@ -1431,6 +1430,10 @@ label {
   font-variant: small-caps;
   font-size: 22px;
   margin: 1em 0 0 0;
+}
+
+.nl-form {
+  text-align: center;
 }
 
 /*# sourceMappingURL=global.css.map */
