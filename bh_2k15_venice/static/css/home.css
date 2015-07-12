@@ -1,5 +1,5 @@
 .hero {
-  background: url(../../img/hero.jpg) center !important;
+  background: url(/static/img/hero.jpg) center !important;
   background-size: cover !important;
 }
 
