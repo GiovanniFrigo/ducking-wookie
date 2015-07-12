@@ -2,6 +2,8 @@ from django.contrib.auth.models import UserManager, PermissionsMixin, AbstractBa
 from django.core import validators
 from django.core.mail import send_mail
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -130,6 +132,24 @@ class Booking(models.Model):
     cook = models.ForeignKey(Cook, null=True, blank=True)
 
     transaction_id = models.TextField(null=True, blank=True)
+    confirmation_sent = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.email + " " + str(self.date)
+
+@receiver(post_save, sender=Booking)
+def send_confirmation(sender, instance, created, **kwargs):
+    if instance.transaction_id:
+        from django.core.mail import send_mail
+        amount = instance.menu.price_per_person*instance.guest_number
+        send_mail(
+            'Thanks for your payment',
+            'You are Awesome! This are your details:\n\n You are going to have %s guests on the %s.\n\n You paid %s.00$ total.\n\n Enjoy!' % (str(instance.guest_number), instance.date.strftime('%d, %b %Y'), amount,),
+            'battlehack.gourmates@gmail.com',
+            [instance.user.email],
+            fail_silently=True
+        )
+        instance.confirmation_sent = True
+        instance.save()
+
+

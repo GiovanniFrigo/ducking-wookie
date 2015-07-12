@@ -131,3 +131,8 @@ braintree.Configuration.configure(
     'rfyzzc5ftvxwkdmm',
     'af2678c533f0174b2837c844e303de02'
 )
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'gourmates'
+EMAIL_HOST_PASSWORD = 'AxeTrophy1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
