@@ -8,7 +8,7 @@ var lastLocation;
  *  Handle UI views dynamic displaying on screen  
  */
 function checkoutEvent() {
-    replaceScreen('checkout');
+    $('#checkout').show();
 }
 
 /*
@@ -17,11 +17,13 @@ function checkoutEvent() {
 function setEntry(value, elOriginal) {
     // set the params
     addParamToBooking(value, elOriginal);
+    // set next step index
+    var next_step = screens.indexOf(elOriginal) + 1;
 
     if (elOriginal == 'location') {
         // check if the user has set a different during the form input location from the previous one -> restart the form
         if (lastLocation != value && lastLocation != null) {
-            hideAllViewsFromIndex(screens.indexOf(elOriginal) + 1);
+            hideAllViewsFromIndex(next_step);
             // clear menu list
             available_menus.length = 0;
             $('#menu-container .menu-row').html("");
@@ -32,20 +34,33 @@ function setEntry(value, elOriginal) {
                 // save menus into a variable
                 available_menus.push(item);
                 // update the ui
-                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
+                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
+                $('.menu-tile-link').click(function() {
+                    booking.menu_id = this.id;
+                    checkoutEvent();
+                    self.location = "#checkout";
+                });
             });
 
         });
     }
 
     // display next step
-    $('#' + screens[screens.indexOf(elOriginal) + 1] + '-container').show();
+    if (next_step == screens.length) {
+        checkoutEvent();
+    }
+    else {
+        $('#' + screens[next_step] + '-container').show();
+    }
 }
 
 function hideAllViewsFromIndex(idx) {
+    // hide all the screens from idx on
     for (var i = screens.length - 1; i >= idx; i--) {
         $('#' + screens[i] + '-container').hide();
     };
+    // also hide the checkout
+    $('#checkout').hide();
 }
 
 /*
@@ -62,4 +77,6 @@ $(document).ready(function() {
             lastLocation = booking.location;
         }
     });
+    // hide checkout
+    $('#checkout').hide();
 });
