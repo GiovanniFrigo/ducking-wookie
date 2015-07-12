@@ -143,3 +143,38 @@ a:active {
     .menu-row { width: 100%; display: table; table-layout: fixed; }
     .menu-col { display: table-cell; }
 }
+
+ul#date {
+	position: absolute;
+	left: 50%;
+	margin-left: -270px;
+	/*transform: translate(-50%,-50%);*/
+	width: 540px;
+	left: 50%;
+  	top: 50%;
+	li {
+		width: calc(100% / 7);
+		float: left;
+		margin-bottom: 0px;
+		padding-bottom: 16px;
+	}
+	li.disabled{
+		color: gray;
+	}
+	li.disabled:hover {
+		background: none;
+	}
+	li.sunday,
+	li.sunday.disabled:hover {
+		/*background-color: rgb(240, 90, 90);*/
+	}
+
+	div.month {
+		margin: 8px 0 16px 0;
+		color: #b14943;
+	}
+}
+
+div#time-container .nl-field {
+	display: block !important;
+}

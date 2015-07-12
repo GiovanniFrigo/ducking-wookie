@@ -3,7 +3,7 @@ function addParamToBooking(content, type) {
 		case "location":  // location
 			booking.location = content;
 			break;
-		case "time":  // time
+		case "date":  // time
 			booking.time = content;
 			break;
 		case "people":  // people
@@ -65,6 +65,10 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				self.fldOpen++;
 				self.fields.push( new NLField( self, el, 'input', self.fldOpen ) );
 			} );
+			Array.prototype.slice.call( this.el.querySelectorAll( 'calendar' ) ).forEach( function( el, i ) {
+				self.fldOpen++;
+				self.fields.push( new NLField( self, el, 'calendar', self.fldOpen ) );
+			} );
 			this.overlay.addEventListener( 'click', function(ev) { 
 				self._closeFlds(); 
 			});
@@ -94,7 +98,56 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 			else if( this.type === 'input' ) {
 				this._createInput();	
 			}
+			else if (this.type === 'calendar') {
+				this._createCalendar();
+			}
 		},
+		_createCalendar : function() {
+			var self = this;
+			var d = new Date();
+			var today = d.getDate();
+			this.fld = document.createElement( 'div' );
+			this.elOriginal.selectedIndex = today - 1;
+			this.fld.className = 'nl-field nl-dd';
+			this.toggle = document.createElement( 'a' );
+			this.toggle.innerHTML = this._getMonthName( d.getMonth() ) + ", " + $('#'+this.elOriginal.id + ' option')[ this.elOriginal.selectedIndex ].innerHTML;
+			this.toggle.className = 'nl-field-toggle';
+			this.optionsList = document.createElement('ul');
+			var ihtml = '';
+			
+			ihtml += '<div class="month">' + this._getMonthName( d.getMonth() ) + '</div>';
+
+			for( var weekOffsetIx= 0; weekOffsetIx < this._getInitialDayOfMonth() - 1; weekOffsetIx++ ) {
+				ihtml += '<li class="disabled">&nbsp;</li>';
+			}
+			Array.prototype.slice.call( this.elOriginal.querySelectorAll( 'option' ) ).forEach( function( el, i ) {
+				var classes = '';
+
+				if( i<today-1 ) {
+					classes += 'disabled ';
+				}
+				if(self.elOriginal.selectedIndex === i) {
+					classes += 'nl-dd-checked ';
+				}
+				d.setDate(i);
+				if( d.getDay()== this._getInitialDayOfMonth() + 1) {
+					// SUNDAY!
+					classes += 'sunday ';
+				}
+				ihtml += '<li class="' + classes + '">' + el.innerHTML + '</li>';
+				// selected index value
+				if( self.elOriginal.selectedIndex === i ) {
+					self.selectedIdx = i + this._getInitialDayOfMonth();
+				}
+			}.bind(this) );
+			this.optionsList.innerHTML = ihtml;
+			this.optionsList.id = this.elOriginal.id;
+			this.fld.appendChild( this.toggle );
+			this.fld.appendChild(this.optionsList);
+			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
+			this.elOriginal.style.display = 'none';
+		}
+		,
 		_createDropDown : function() {
 			var self = this;
 			this.fld = document.createElement( 'div' );
@@ -167,6 +220,13 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				this.inputsubmit.addEventListener( 'click', function( ev ) { ev.preventDefault(); self.close(); } );
 				this.inputsubmit.addEventListener( 'touchstart', function( ev ) { ev.preventDefault(); self.close(); } );
 			}
+			else if (this.type === 'calendar') {
+				var opts = Array.prototype.slice.call( this.optionsList.querySelectorAll( 'li' ) );
+				opts.forEach( function( el, i ) {
+					el.addEventListener( 'click', function( ev ) { ev.preventDefault(); self.close( el, opts.indexOf( el ) ); } );
+					el.addEventListener( 'touchstart', function( ev ) { ev.preventDefault(); self.close( el, opts.indexOf( el ) ); } );
+				} );
+			}
 
 		},
 		_open : function() {
@@ -204,8 +264,35 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 				this.toggle.innerHTML = this.getinput.value.trim() !== '' ? this.getinput.value : this.getinput.getAttribute( 'placeholder' );
 				this.elOriginal.value = this.getinput.value;
 			}
+			else if (this.type === 'calendar' ) {
+				var d = new Date();
+				if( idx<d.getDate()-1)
+					return;
+				if( opt ) {
+					// remove class nl-dd-checked from previous option
+					var selectedopt = this.optionsList.children[ this.selectedIdx ];
+					selectedopt.className = ''; // TODO
+					opt.className = 'nl-dd-checked';
+					this.toggle.innerHTML = this._getMonthName( d.getMonth() ) + ", " + opt.innerHTML;
+					// update selected index value
+					this.selectedIdx = idx +1 ;
+					// update original select element´s value
+					this.elOriginal.value = this.toggle.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
+				}
+			}
 
 			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
+		},
+		_getMonthName: function(month) {
+			var monthNames = ["January", "February", "March", "April", "May", "June",
+			  "July", "August", "September", "October", "November", "December"
+			];
+			return monthNames[ month ];
+		},
+		_getInitialDayOfMonth: function () {
+			var d = new Date();
+			d.setDate(1); // get which day of the week the first day of this month was
+			return d.getDay();
 		}
 	}
 
@@ -216,8 +303,15 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 /*
  *   View array
  */
-var screens = ["location", "time", "people", "menu"];//"allergies", "menu"]; 
+var screens = ["location", "date", "people", "menu"];//"allergies", "menu"]; 
 var lastLocation;
+
+/*
+ *  Utilities variables
+ */
+var monthNames = ["jan", "feb", "mar", "apr", "may", "jun",
+  "jul", "aug", "sep", "oct", "nov", "dec"
+];
 
 /*
  *  Handle UI views dynamic displaying on screen  
@@ -241,9 +335,10 @@ function setEntry(value, elOriginal) {
             hideAllViewsFromIndex(next_step);
             // clear menu list
             available_menus.length = 0;
+            available_days.length = 0;
             $('#menu-container .menu-row').html("");
         }
-        // get availabilities from server using the location
+        // get menu availabilities from server using the location
         $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/", function( data ) {
             $.each( data.menus, function( i, item ) {
                 // save menus into a variable
@@ -256,7 +351,14 @@ function setEntry(value, elOriginal) {
                     self.location = "#checkout";
                 });
             });
-
+        });
+        // get menu time availabilities from server
+        var d = new Date();
+        $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/" + d.getFullYear() + "/" + monthNames[d.getMonth()] + "/", function ( time_data ) {
+            // each object represent
+            $.each( time_data.calendar, function( i, item ) {
+                available_days.push(item);
+            });
         });
     }
 

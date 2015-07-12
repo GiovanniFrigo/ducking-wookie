@@ -37,6 +37,10 @@
 				self.fldOpen++;
 				self.fields.push( new NLField( self, el, 'input', self.fldOpen ) );
 			} );
+			Array.prototype.slice.call( this.el.querySelectorAll( 'calendar' ) ).forEach( function( el, i ) {
+				self.fldOpen++;
+				self.fields.push( new NLField( self, el, 'calendar', self.fldOpen ) );
+			} );
 			this.overlay.addEventListener( 'click', function(ev) { 
 				self._closeFlds(); 
 			});
@@ -66,7 +70,56 @@
 			else if( this.type === 'input' ) {
 				this._createInput();	
 			}
+			else if (this.type === 'calendar') {
+				this._createCalendar();
+			}
 		},
+		_createCalendar : function() {
+			var self = this;
+			var d = new Date();
+			var today = d.getDate();
+			this.fld = document.createElement( 'div' );
+			this.elOriginal.selectedIndex = today - 1;
+			this.fld.className = 'nl-field nl-dd';
+			this.toggle = document.createElement( 'a' );
+			this.toggle.innerHTML = this._getMonthName( d.getMonth() ) + ", " + $('#'+this.elOriginal.id + ' option')[ this.elOriginal.selectedIndex ].innerHTML;
+			this.toggle.className = 'nl-field-toggle';
+			this.optionsList = document.createElement('ul');
+			var ihtml = '';
+			
+			ihtml += '<div class="month">' + this._getMonthName( d.getMonth() ) + '</div>';
+
+			for( var weekOffsetIx= 0; weekOffsetIx < this._getInitialDayOfMonth() - 1; weekOffsetIx++ ) {
+				ihtml += '<li class="disabled">&nbsp;</li>';
+			}
+			Array.prototype.slice.call( this.elOriginal.querySelectorAll( 'option' ) ).forEach( function( el, i ) {
+				var classes = '';
+
+				if( i<today-1 ) {
+					classes += 'disabled ';
+				}
+				if(self.elOriginal.selectedIndex === i) {
+					classes += 'nl-dd-checked ';
+				}
+				d.setDate(i);
+				if( d.getDay()== this._getInitialDayOfMonth() + 1) {
+					// SUNDAY!
+					classes += 'sunday ';
+				}
+				ihtml += '<li class="' + classes + '">' + el.innerHTML + '</li>';
+				// selected index value
+				if( self.elOriginal.selectedIndex === i ) {
+					self.selectedIdx = i + this._getInitialDayOfMonth();
+				}
+			}.bind(this) );
+			this.optionsList.innerHTML = ihtml;
+			this.optionsList.id = this.elOriginal.id;
+			this.fld.appendChild( this.toggle );
+			this.fld.appendChild(this.optionsList);
+			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
+			this.elOriginal.style.display = 'none';
+		}
+		,
 		_createDropDown : function() {
 			var self = this;
 			this.fld = document.createElement( 'div' );
@@ -139,6 +192,13 @@
 				this.inputsubmit.addEventListener( 'click', function( ev ) { ev.preventDefault(); self.close(); } );
 				this.inputsubmit.addEventListener( 'touchstart', function( ev ) { ev.preventDefault(); self.close(); } );
 			}
+			else if (this.type === 'calendar') {
+				var opts = Array.prototype.slice.call( this.optionsList.querySelectorAll( 'li' ) );
+				opts.forEach( function( el, i ) {
+					el.addEventListener( 'click', function( ev ) { ev.preventDefault(); self.close( el, opts.indexOf( el ) ); } );
+					el.addEventListener( 'touchstart', function( ev ) { ev.preventDefault(); self.close( el, opts.indexOf( el ) ); } );
+				} );
+			}
 
 		},
 		_open : function() {
@@ -176,8 +236,35 @@
 				this.toggle.innerHTML = this.getinput.value.trim() !== '' ? this.getinput.value : this.getinput.getAttribute( 'placeholder' );
 				this.elOriginal.value = this.getinput.value;
 			}
+			else if (this.type === 'calendar' ) {
+				var d = new Date();
+				if( idx<d.getDate()-1)
+					return;
+				if( opt ) {
+					// remove class nl-dd-checked from previous option
+					var selectedopt = this.optionsList.children[ this.selectedIdx ];
+					selectedopt.className = ''; // TODO
+					opt.className = 'nl-dd-checked';
+					this.toggle.innerHTML = this._getMonthName( d.getMonth() ) + ", " + opt.innerHTML;
+					// update selected index value
+					this.selectedIdx = idx +1 ;
+					// update original select element´s value
+					this.elOriginal.value = this.toggle.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
+				}
+			}
 
 			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
+		},
+		_getMonthName: function(month) {
+			var monthNames = ["January", "February", "March", "April", "May", "June",
+			  "July", "August", "September", "October", "November", "December"
+			];
+			return monthNames[ month ];
+		},
+		_getInitialDayOfMonth: function () {
+			var d = new Date();
+			d.setDate(1); // get which day of the week the first day of this month was
+			return d.getDay();
 		}
 	}
 
