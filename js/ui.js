@@ -75,9 +75,7 @@ function setEntry(value, elOriginal) {
                     $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
                         $('#menu-'+item.id).css("background-image", "url("+item.photo+")");  
                         $('.menu-tile-link').click(function() {
-                            booking.menu_id = this.id;
-                            checkoutEvent();
-                            self.location = "#checkout";
+                            setEntry( this.id, "menu");;
                         });
                 }
             }
