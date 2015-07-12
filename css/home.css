@@ -1,3 +1,8 @@
+.hero {
+  background: url(../../img/hero.jpg) center !important;
+  background-size: cover !important;
+}
+
 .text-center {
   text-align: center;
 }
@@ -124,6 +129,7 @@
 @media (min-width: 750px) {
   .hero {
     height: 190px;
+    background: url(../../img/hero.jpg) center center;
   }
   .hero-heading {
     font-size: 30px;
@@ -161,6 +167,7 @@
   .hero {
     padding: 2rem 0;
     height: 650px;
+    background: url(../../img/hero.jpg) center center;
   }
   .hero-heading {
     margin-top: 130px;
