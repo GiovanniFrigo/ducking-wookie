@@ -144,7 +144,7 @@ def send_confirmation(sender, instance, created, **kwargs):
         amount = instance.menu.price_per_person*instance.guest_number
         send_mail(
             'Thanks for your payment',
-            'You are Awesome! This are your details:\n\n You are going to have %s guests on the %s.\n\n You paid %s.00€ total.\n\n Enjoy!' % (str(instance.guest_number), instance.date.strftime('%d, %b %Y'), amount,),
+            'You are Awesome! This are your details:\n\n You are going to have %s guests on the %s.\n\n You paid %s.00$ total.\n\n Enjoy!' % (str(instance.guest_number), instance.date.strftime('%d, %b %Y'), amount,),
             'battlehack.gourmates@gmail.com',
             [instance.user.email],
             fail_silently=True
