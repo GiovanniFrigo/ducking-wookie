@@ -1,7 +1,7 @@
 /*
  *   View array
  */
-var screens = ["location", "date", "people", "menu", "email", "address"];//"allergies", "menu"]; 
+var screens = ["location", "date", "people", "menu", "email", "address"];
 var lastLocation;
 
 /*
@@ -85,6 +85,12 @@ function setEntry(value, elOriginal) {
             
         });
     }
+    else if (elOriginal == 'people') {
+        if (booking.amount != null) {
+            booking.amount = parseInt(booking.n_people==""?"2":booking.n_people) * parseInt($(".card.selected").attr("data-menu-price"));
+            $("#pay-button").val("Pay " + booking.amount + " $");
+        }
+    }
     else if (elOriginal == 'date') {
         // clear menu list
         $('#menu-container .menu-row').html("");
@@ -97,10 +103,10 @@ function setEntry(value, elOriginal) {
             for (var key in json) {
                 if (json[key] > 0 && key == id) {
                     // update the ui
-                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div data-menu-id="+key+" data-menu-price="+item.price_per_person+"><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
+                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div class=\"card\" data-menu-id="+key+" data-menu-price="+item.price_per_person+"><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
                     $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%", "background-repeat" : "no-repeat"});  
                     $('.menu-tile-link').click(function() {
-                        $('.menu-tile-link').children(":first").removeClass("selected");
+                        $('.card').removeClass("selected");
                         $(this).children(":first").addClass("selected");
                         setEntry( $(this).children(":first").attr("data-menu-id"), "menu");
                         booking.amount = parseInt(booking.n_people==""?"2":booking.n_people) * parseInt($(this).children(":first").attr("data-menu-price"));
