@@ -42,6 +42,7 @@ function setEntry(value, elOriginal) {
             $.each( data.menus, function( i, item ) {
                 // save menus into a variable
                 available_menus.push(item);
+
                 // update the ui
                 $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
                 $('.menu-tile-link').click(function() {
@@ -56,6 +57,30 @@ function setEntry(value, elOriginal) {
             $.each( time_data.calendar, function( i, item ) {
                 available_days.push(item);
             });
+        });
+    }
+
+    else if (elOriginal == 'date') {
+        $.each(available_menus, function(i, item) {
+            // clear menu list
+            $('#menu-container .menu-row').html("");
+            // check if menu is available that day
+            var day = booking.time;
+            var id = item.id;
+            var json = available_days[day];
+            for (var key in json) {
+                if (key == id && json[key] > 1) {
+                    console.log(key + ": " + json[key]);
+                    // update the ui
+                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
+                        $('#menu-'+item.id).css("background-image", "url("+item.photo+")");  
+                        $('.menu-tile-link').click(function() {
+                            booking.menu_id = this.id;
+                            checkoutEvent();
+                            self.location = "#checkout";
+                        });
+                }
+            }
         });
     }
 

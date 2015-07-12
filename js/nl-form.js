@@ -249,10 +249,11 @@
 					// update selected index value
 					this.selectedIdx = idx +1 ;
 					// update original select element´s value
-					this.elOriginal.value = this.toggle.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
+					this.elOriginal.value = opt.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
 				}
 			}
 
+			console.log("set entry");
 			setEntry(this.elOriginal.value, $(this.elOriginal).attr("id"));
 		},
 		_getMonthName: function(month) {
