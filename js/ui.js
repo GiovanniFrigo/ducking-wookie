@@ -56,8 +56,43 @@ function setEntry(value, elOriginal) {
             // each object represent
             $.each( time_data.calendar, function( i, item ) {
                 available_days.push(item);
+                // check if menus are available for that day
+                var available = false;
+                for (var key in item) {
+                    if (item[key] > 0) {
+                        available = true;
+                        break;
+                    }
+                }
+                if (!available) {
+                    $('li.'+i).addClass('disabled');
+                }
             });
         });
+
+        // listener to set disabled dates
+        $.each(available_days, function(i, item) {
+            
+        });
+        /*
+        $('#date').click(function() {
+            $( "li" ).each(function( index ) {
+                // check if day is available
+                var available = false;
+                if ($(this).text().length > 0) {
+                    var json = available_days[$( this ).text() - 1];
+                    for (var key in json) {
+                        if (json[key] != 0) {
+                            available = true;
+                            break;
+                        }
+                    }
+                    if (!available) {
+                        $(this).toggle('sunday');
+                    }
+                }
+            });  
+        });*/
     }
 
     else if (elOriginal == 'date') {
@@ -116,4 +151,5 @@ $(document).ready(function() {
     });
     // hide checkout
     $('#checkout').hide();
+
 });
