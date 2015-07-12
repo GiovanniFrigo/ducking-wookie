@@ -1473,7 +1473,7 @@ input:focus::-ms-input-placeholder {
   }
 }
 body {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .form-column {
@@ -1501,7 +1501,8 @@ label {
   letter-spacing: 0;
 }
 .menu-tile-link p {
-  font-size: 21px;
+  position: relative;
+  font-size: 24px;
   font-weight: 800;
 }
 
@@ -1511,7 +1512,7 @@ label {
   height: 150px;
   border-radius: 3px;
   margin: 10px;
-  padding: 10px;
+  padding: 5px;
 }
 
 /*# sourceMappingURL=global.css.map */

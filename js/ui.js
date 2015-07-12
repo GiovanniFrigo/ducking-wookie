@@ -74,23 +74,22 @@ function setEntry(value, elOriginal) {
             
         });
     }
-
     else if (elOriginal == 'date') {
+        // clear menu list
+        $('#menu-container .menu-row').html("");
+        // check if menu is available that day
         $.each(available_menus, function(i, item) {
-            // clear menu list
-            $('#menu-container .menu-row').html("");
-            // check if menu is available that day
             var day = booking.time;
             var id = item.id;
             var json = available_days[day];
             for (var key in json) {
-                if (key == id && json[key] > 0) {
+                if (json[key] > 0 && key == id) {
                     // update the ui
-                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
-                        $('#menu-'+item.id +' :first').css({"background-image": "url("+item.photo+")", "background-size": "cover"});  
-                        $('.menu-tile-link').click(function() {
-                            setEntry( this.id, "menu");;
-                        });
+                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
+                    $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%"});  
+                    $('.menu-tile-link').click(function() {
+                        setEntry( this.id, "menu");
+                    });
                 }
             }
         });
