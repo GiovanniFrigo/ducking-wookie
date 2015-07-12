@@ -1192,6 +1192,10 @@ div#time-container .nl-field {
   display: block !important;
 }
 
+#pay-button {
+  float: right;
+}
+
 @font-face {
   font-family: 'nlicons';
   src: url("../../fonts/nlicons/nlicons.eot");
