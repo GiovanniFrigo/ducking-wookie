@@ -1,19 +1,24 @@
 function addParamToBooking(content, type) {
 	switch (type) {
 		case "location":  // location
-			booking.location = content;
+			booking.place = content;
 			break;
 		case "date":  // time
-			booking.time = content;
+			booking.day = content;
+			booking.month = (new Date()).getMonth()+1;
+			booking.year = (new Date()).getFullYear();
 			break;
 		case "people":  // people
-			booking.people = content;
+			booking.n_people = content;
 			break;
 		case "allergies":
 			booking.allergies = content;
 			break;
 		case "menu":
-			booking.menu = content;
+			booking.menu_id = content;
+			break;
+		case "email":
+			booking.email = content;
 			break;
 	}
 }
@@ -328,6 +333,15 @@ var monthNames = ["jan", "feb", "mar", "apr", "may", "jun",
  *  Handle UI views dynamic displaying on screen  
  */
 function checkoutEvent() {
+
+    for (var property in booking) {
+        if (booking.hasOwnProperty(property)) {
+            var input = $("<input>")
+                   .attr("type", "hidden")
+                   .attr("name", property).val(booking[property]);
+            $('#checkout').append($(input));
+        }
+    }
     $('#checkout').show();
 }
 
@@ -356,9 +370,9 @@ function setEntry(value, elOriginal) {
                 available_menus.push(item);
 
                 // update the ui
-                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
+                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" data-menu-id=" + item.id + " id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
                 $('.menu-tile-link').click(function() {
-                    setEntry(this.id, "menu")
+                    setEntry($this.attr("data-menu-id"), "menu")
                 });
             });
         });
@@ -392,7 +406,7 @@ function setEntry(value, elOriginal) {
         $('#menu-container .menu-row').html("");
         // check if menu is available that day
         $.each(available_menus, function(i, item) {
-            var day = booking.time;
+            var day = booking.day;
             var id = item.id;
             var json = available_days[day];
             for (var key in json) {
@@ -401,7 +415,9 @@ function setEntry(value, elOriginal) {
                     $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
                     $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%", "background-repeat" : "no-repeat"});  
                     $('.menu-tile-link').click(function() {
-                        setEntry( this.id, "menu");
+                        setEntry( $(this).attr("data-menu-id"), "menu");
+                        booking.amount = parseInt(booking.n_people) * parseInt(item.price_per_person);;;;;;;
+                        $("#pay-button").val("Pay " + booking.amount + " $");;;;;;;;
                     });
                 }
             }
@@ -442,8 +458,8 @@ $(document).ready(function() {
     $('#location-container').show();
     //put listener to dropdown menus
     $('#location-container').mousedown(function() {
-        if (booking.location != null) {
-            lastLocation = booking.location;
+        if (booking.place != null) {
+            lastLocation = booking.place;
         }
     });
     // hide checkout
