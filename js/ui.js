@@ -5,6 +5,13 @@ var screens = ["location", "time", "people", "menu"];//"allergies", "menu"];
 var lastLocation;
 
 /*
+ *  Utilities variables
+ */
+var monthNames = ["jan", "feb", "mar", "apr", "may", "jun",
+  "jul", "aug", "sep", "oct", "nov", "dec"
+];
+
+/*
  *  Handle UI views dynamic displaying on screen  
  */
 function checkoutEvent() {
@@ -28,7 +35,7 @@ function setEntry(value, elOriginal) {
             available_menus.length = 0;
             $('#menu-container .menu-row').html("");
         }
-        // get availabilities from server using the location
+        // get menu availabilities from server using the location
         $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/", function( data ) {
             $.each( data.menus, function( i, item ) {
                 // save menus into a variable
@@ -41,7 +48,14 @@ function setEntry(value, elOriginal) {
                     self.location = "#checkout";
                 });
             });
+        });
+        // get menu time availabilities from server
+        var d = new Date();
+        $.getJSON( "http://gourmate.herokuapp.com/protoapi/menu/" + value + "/" + d.getFullYear() + "/" + monthNames[d.getMonth()] + "/", function ( time_data ) {
+            // each object represent
+            $.each( time_data.calendar, function( i, item ) {
 
+            });
         });
     }
 
