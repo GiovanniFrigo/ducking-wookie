@@ -247,7 +247,7 @@ function setEntry(value, elOriginal) {
                 // save menus into a variable
                 available_menus.push(item);
                 // update the ui
-                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile\" id=\"menu-" + item.id + "\"><div>" + item.name + "<\/div><\/div>")
+                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
             });
 
         });
