@@ -399,7 +399,7 @@ function setEntry(value, elOriginal) {
                 if (json[key] > 0 && key == id) {
                     // update the ui
                     $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
-                    $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%"});  
+                    $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%", "background-repeat" : "no-repeat"});  
                     $('.menu-tile-link').click(function() {
                         setEntry( this.id, "menu");
                     });
@@ -415,9 +415,11 @@ function setEntry(value, elOriginal) {
     // display next step
     if (next_step == screens.length) {
         checkoutEvent();
+        $('html, body').scrollTop( $(document).height());
     }
     else {
         $('#' + screens[next_step] + '-container').show();
+        $('html, body').scrollTop( $(document).height());
     }
 }
 
