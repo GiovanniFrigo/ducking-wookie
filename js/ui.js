@@ -115,6 +115,11 @@ function setEntry(value, elOriginal) {
                 }
             }
         });
+    } else if( elOriginal == 'email') {
+        console.log("validating email");
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        if( re.test(value)==false )
+            return;
     }
 
     // display next step

@@ -145,12 +145,18 @@
 
 	<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
 	<script>
-	$.get("http://gourmate.herokuapp.com/protoapi/payment/token/", function(data) {
-	    var clientToken = data.token;
+	$(window).ready(function(){
+		$.get("http://gourmate.herokuapp.com/protoapi/payment/token/", function(data) {
+		    var clientToken = data.token;
 
-	    braintree.setup(clientToken, "dropin", {
-	      container: "payment-form"
-	    });
+		    braintree.setup(clientToken, "dropin", {
+		      container: "payment-form"
+		    });
+		});
+
+		$('#people-container input[type=text]').keyup(function () { 
+		    this.value = this.value.replace(/[^0-9\.]/g,'');
+		});
 	});
 
 	</script>
