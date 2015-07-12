@@ -20,7 +20,7 @@ def generate_token(request):
 
 @csrf_exempt
 def post_payment(request):
-    if "payment_method_nonce" not in request.forms:
+    if "payment_method_nonce" not in request.form:
         return HttpResponseBadRequest()
 
     nonce = request.form["payment_method_nonce"]
