@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 import braintree
-from django.http.response import HttpResponseBadRequest, JsonResponse, HttpResponse
+from django.http.response import HttpResponseBadRequest, JsonResponse, HttpResponse, \
+    HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Booking, Place, Menu
 import datetime
@@ -48,7 +49,7 @@ def post_payment(request):
     if result.is_success:
         created_booking.transaction_id = result.transaction.id
         created_booking.save()
-        return JsonResponse({"status": "success!"})
+        return HttpResponseRedirect('/awesome/')#JsonResponse({"status": "success!"})
     elif result.transaction:
         return HttpResponse("\nError processing transaction:" +
                             "\n  code: " + result.transaction.processor_response_code +

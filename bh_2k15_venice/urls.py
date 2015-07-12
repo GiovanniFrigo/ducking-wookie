@@ -20,7 +20,7 @@ from payment_gateway import views as payment_views
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^/$', views.home),
+    url(r'^$', views.home),
     url(r'^awesome/$', views.awesome),
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
     url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_not_booked),
