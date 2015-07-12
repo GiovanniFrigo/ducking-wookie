@@ -1196,6 +1196,10 @@ div#time-container .nl-field {
   float: right;
 }
 
+.selected {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
 @font-face {
   font-family: 'nlicons';
   src: url("../../fonts/nlicons/nlicons.eot");

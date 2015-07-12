@@ -66,6 +66,8 @@ function setEntry(value, elOriginal) {
                 available_days.push(item);
                 // check if menus are available for that day
                 var available = false;
+                console.log(i);
+                console.log(item);
                 for (var key in item) {
                     if (item[key] > 0) {
                         available = true;
@@ -90,16 +92,19 @@ function setEntry(value, elOriginal) {
         $.each(available_menus, function(i, item) {
             var day = booking.day;
             var id = item.id;
-            var json = available_days[day];
+            var json = available_days[day - 1];
+            console.log(json);
             for (var key in json) {
                 if (json[key] > 0 && key == id) {
                     // update the ui
-                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
+                    $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + key + "\"><div data-menu-id="+key+" data-menu-price="+item.price_per_person+"><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>");
                     $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%", "background-repeat" : "no-repeat"});  
                     $('.menu-tile-link').click(function() {
-                        setEntry( $(this).attr("data-menu-id"), "menu");
-                        booking.amount = parseInt(booking.n_people) * parseInt(item.price_per_person);;;;;;;
-                        $("#pay-button").val("Pay " + booking.amount + " $");;;;;;;;
+                        $('.menu-tile-link').children(":first").removeClass("selected");
+                        $(this).children(":first").addClass("selected");
+                        setEntry( $(this).children(":first").attr("data-menu-id"), "menu");
+                        booking.amount = parseInt(booking.n_people==""?"2":booking.n_people) * parseInt($(this).children(":first").attr("data-menu-price"));
+                        $("#pay-button").val("Pay " + booking.amount + " $");
                     });
                 }
             }
