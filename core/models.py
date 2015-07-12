@@ -149,7 +149,6 @@ def send_confirmation(sender, instance, created, **kwargs):
             [instance.user.email],
             fail_silently=True
         )
-        instance.confirmation_sent = True
-        instance.save()
+
 
 
