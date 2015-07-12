@@ -130,11 +130,13 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 					classes += 'nl-dd-checked ';
 				}
 				d.setDate(i);
-				if( d.getDay()== this._getInitialDayOfMonth() + 1) {
+
+
+				if( d.getDay() == this._getInitialDayOfMonth() + 1) {
 					// SUNDAY!
 					classes += 'sunday ';
 				}
-				ihtml += '<li class="' + classes + '">' + el.innerHTML + '</li>';
+				ihtml += '<li class="' + classes + '' + el.innerHTML + '">' + el.innerHTML + '</li>';
 				// selected index value
 				if( self.elOriginal.selectedIndex === i ) {
 					self.selectedIdx = i + this._getInitialDayOfMonth();
@@ -266,18 +268,27 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 			}
 			else if (this.type === 'calendar' ) {
 				var d = new Date();
-				if( idx<d.getDate()-1)
+				var pickedChild = this.optionsList.children[idx + 1];
+				if (((" " + pickedChild.className + " ").replace(/[\n\t]/g, " ").indexOf(" disabled ")) > -1) {
 					return;
-				if( opt ) {
-					// remove class nl-dd-checked from previous option
-					var selectedopt = this.optionsList.children[ this.selectedIdx ];
-					selectedopt.className = ''; // TODO
-					opt.className = 'nl-dd-checked';
-					this.toggle.innerHTML = this._getMonthName( d.getMonth() ) + ", " + opt.innerHTML;
-					// update selected index value
-					this.selectedIdx = idx +1 ;
-					// update original select element´s value
-					this.elOriginal.value = opt.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
+				}
+				else {
+					if( idx<d.getDate()-1)
+						return;
+					else {
+						if( opt ) {
+							// remove class nl-dd-checked from previous option
+							//console.log(this.optionsList.children[idx].className();
+							var selectedopt = this.optionsList.children[ this.selectedIdx ];
+							selectedopt.className = ''; // TODO
+							opt.className = 'nl-dd-checked';
+							this.toggle.innerHTML = this._getMonthName( d.getMonth() ) + ", " + opt.innerHTML;
+							// update selected index value
+							this.selectedIdx = idx +1 ;
+							// update original select element´s value
+							this.elOriginal.value = opt.innerHTML; //this.elOriginal.children[ this.selectedIdx ].value;
+						}
+					}
 				}
 			}
 
@@ -353,8 +364,43 @@ function setEntry(value, elOriginal) {
             // each object represent
             $.each( time_data.calendar, function( i, item ) {
                 available_days.push(item);
+                // check if menus are available for that day
+                var available = false;
+                for (var key in item) {
+                    if (item[key] > 0) {
+                        available = true;
+                        break;
+                    }
+                }
+                if (!available) {
+                    $('li.'+i).addClass('disabled');
+                }
             });
         });
+
+        // listener to set disabled dates
+        $.each(available_days, function(i, item) {
+            
+        });
+        /*
+        $('#date').click(function() {
+            $( "li" ).each(function( index ) {
+                // check if day is available
+                var available = false;
+                if ($(this).text().length > 0) {
+                    var json = available_days[$( this ).text() - 1];
+                    for (var key in json) {
+                        if (json[key] != 0) {
+                            available = true;
+                            break;
+                        }
+                    }
+                    if (!available) {
+                        $(this).toggle('sunday');
+                    }
+                }
+            });  
+        });*/
     }
 
     else if (elOriginal == 'date') {
@@ -415,4 +461,5 @@ $(document).ready(function() {
     });
     // hide checkout
     $('#checkout').hide();
+
 });
