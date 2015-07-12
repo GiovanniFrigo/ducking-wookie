@@ -127,7 +127,9 @@ class Booking(models.Model):
 
     guest_number = models.PositiveSmallIntegerField(default=2)
     menu = models.ForeignKey(Menu)
-    cook = models.ForeignKey(Cook)
+    cook = models.ForeignKey(Cook, null=True, blank=True)
+
+    transaction_id = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return self.user.email + " " + str(self.date)

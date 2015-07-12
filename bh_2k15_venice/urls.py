@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
     url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/$', views.menu_place_not_booked),
     url(r'^protoapi/menu/(?P<place>\w+)/(?P<year>\w+)/(?P<month>\w+)/booked/$', views.menu_place_booked),
+
+    url(r'^protoapi/booking/$', views.BookCBV.as_view()),
+
     url(r'^protoapi/payment/token/$', payment_views.generate_token),
     url(r'^protoapi/payment/pay/$', payment_views.post_payment),
     url(r'^admin/', include(admin.site.urls)),

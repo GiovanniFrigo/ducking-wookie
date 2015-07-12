@@ -1,8 +1,10 @@
 import datetime
-from django.http.response import Http404
+from django.contrib.auth import get_user_model
+from django.http.response import Http404, HttpResponseBadRequest
 from django.shortcuts import render
 import json
 from django.http import JsonResponse
+from django.views.generic.base import View
 from models import Booking, Menu, Place
 
 
@@ -81,18 +83,24 @@ def menu_place_booked(request, place, year, month):
 
     return JsonResponse(data)
 
+
+def get_availability_count(date, menu, place_obj):
+    daily_booking_count = Booking.objects.filter(
+        place=place_obj,
+        menu=menu,
+        date__gte=date,
+        date__lt=date + datetime.timedelta(days=1) - datetime.timedelta(
+            seconds=1)
+    ).count()
+    return menu.available_number_per_day - daily_booking_count
+
 def free_spots(date, place_obj):
     menus_in_place = Menu.objects.filter(available_in=place_obj)
     result = {}
     for menu in menus_in_place:
-        daily_booking_count = Booking.objects.filter(
-            place=place_obj,
-            menu=menu,
-            date__gte=date,
-            date__lt=date+datetime.timedelta(days=1)-datetime.timedelta(seconds=1)
-        ).count()
-        result['%s' % menu.id] = menu.available_number_per_day - daily_booking_count
+        result['%s' % menu.id] = get_availability_count(date, menu, place_obj)
     return result
+
 
 def menu_place_not_booked(request, place, year, month):
     months =[
@@ -135,7 +143,7 @@ def menu_place_not_booked(request, place, year, month):
     delta = end_month - month_selected
     calendar = {'calendar': {}}
     from calendar import monthrange
-    num_of_days =  monthrange(year, month_num)[1]
+    num_of_days = monthrange(year, month_num)[1]
     # for i in range(delta.days):
     for i in range(1, num_of_days+1):
         working_date = month_selected.replace(
@@ -146,3 +154,27 @@ def menu_place_not_booked(request, place, year, month):
         calendar['calendar']['%s' % i] = free_spots(working_date, place_obj)
 
     return JsonResponse(calendar)
+
+
+class BookCBV(View):
+    """
+    Anything different from POST will be served a 405 error.
+    """
+
+    def post(self, request):
+        try:
+            received_json_data=json.loads(request.body)
+            place = Place.objects.get(name__iexact=received_json_data['place'])
+            user, created = get_user_model().objects.get_or_create(email=received_json_data['email'], username=received_json_data['email'])
+            menu = Menu.objects.get(id=int(received_json_data['menu_id']))
+            n_people = int(received_json_data['n_people'])
+            date_meal = datetime.datetime(received_json_data['year'], received_json_data['month'], received_json_data['day'])
+            if get_availability_count(date_meal, menu, place) > 0:
+                booking = Booking.objects.create(user=user, place=place, guest_number=n_people, menu=menu, date=date_meal)
+                return JsonResponse({'booking_id': booking.id})
+            else:
+                return HttpResponseBadRequest("no booking availability here...")
+        except KeyError as ke:
+            return HttpResponseBadRequest(ke)
+        except Exception as ex:
+            return HttpResponseBadRequest(ex)
