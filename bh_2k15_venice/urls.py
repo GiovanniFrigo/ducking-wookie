@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from core import views
 from payment_gateway import views as payment_views
+from django.conf import settings
 
 urlpatterns = [
     url(r'^protoapi/menu/(?P<place>\w+)/$', views.menu_place),
@@ -26,3 +27,10 @@ urlpatterns = [
     url(r'^protoapi/payment/pay/$', payment_views.post_payment),
     url(r'^admin/', include(admin.site.urls)),
 ]
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}))
+
