@@ -14,7 +14,7 @@ def menu_place(request, place):
     place_obj = Place.objects.get(name__iexact=place)
     menu_list = []
     for listitem in list(Menu.objects.filter(available_in=place_obj).values()):
-        listitem['photo'] = Menu.objects.get(id=listitem['id']).photo.url
+        listitem['photo'] = "https://gourmate.herokuapp.com%s" % Menu.objects.get(id=listitem['id']).photo.url
         menu_list.append(listitem)
     menu_dict = {'menus': menu_list}
 
