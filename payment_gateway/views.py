@@ -15,7 +15,7 @@ def generate_token(request):
 
 @csrf_exempt
 def post_payment(request):
-    if request.POST.get("payment_method_nonce") is None:
+    if request.POST.get("payment_method_nonce") is None or request.POST.get("booking_id") is None:
         return HttpResponseBadRequest()
 
     nonce = request.POST.get("payment_method_nonce")
