@@ -89,6 +89,8 @@ function setEntry(value, elOriginal) {
                     $('#menu-'+ key +' :first').css({"background-image": "url("+item.photo+")", "background-size": "100%", "height" : "100%"});  
                     $('.menu-tile-link').click(function() {
                         setEntry( this.id, "menu");
+                        booking.amount = parseInt(booking.people) * parseInt(item.price_per_person);;;;;;;
+                        $("#pay-button").val("Pay " + booking.amount + " $");;;;;;;;
                     });
                 }
             }
