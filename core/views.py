@@ -4,6 +4,8 @@ from django.http.response import Http404, HttpResponseBadRequest
 from django.shortcuts import render
 import json
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 from models import Booking, Menu, Place
 
@@ -160,6 +162,9 @@ class BookCBV(View):
     """
     Anything different from POST will be served a 405 error.
     """
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BookCBV, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
         try:
