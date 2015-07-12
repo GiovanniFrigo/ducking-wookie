@@ -80,6 +80,7 @@ class Menu(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price_per_person = models.SmallIntegerField(default=10)
+    photo = models.ImageField(blank=True)
 
     # Allergy info
     contains_grain = models.BooleanField(default=True)
@@ -89,13 +90,24 @@ class Menu(models.Model):
     contains_fish = models.BooleanField(default=False)
 
     available_in = models.ManyToManyField(Place)
-
     available_number_per_day = models.PositiveIntegerField(default=1)
 
     def vegan_suitable(self):
         return not self.contains_meat and \
                not self.contains_fish and \
                 not self.contains_diary
+
+    def vegetarian_suitable(self):
+        return not self.contains_meat
+
+    def nuts_allergic_suitable(self):
+        return not self.contains_nuts
+
+    def diary_allergic_suitable(self):
+        return not self.contains_diary
+
+    def celiac_suitable(self):
+        return not self.contains_grain
 
     def __unicode__(self):
         return self.name
