@@ -1,0 +1,50 @@
+@import '../bower_components/skeleton/css/normalize';
+@import '../bower_components/skeleton/css/skeleton';
+
+@import 'navbar';
+
+@import 'default';
+@import 'component';
+
+body {
+	background: rgba(black,0.04);
+}
+
+.form-column {
+	margin: 0 auto !important;
+	float: none !important;
+}
+
+label {
+	text-transform: lowercase;
+	font-variant: small-caps;
+	font-size: 22px;
+	margin: 1em 0 0 0;
+}
+
+.nl-form {
+	text-align: center;
+}
+
+.menu-tile-link {
+	color: white;
+	h4 {
+		font-size: 30px;
+		margin: 0;
+		letter-spacing: 0;
+	}
+	p {
+		position: relative;
+		font-size: 24px;
+  		font-weight: 800;
+	}
+}
+
+.menu-column {
+	width: calc(50% - 20px);
+	float: left;
+	height: 150px;
+	border-radius: 3px;
+	margin: 10px;
+	padding: 5px;
+}

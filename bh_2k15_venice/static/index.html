@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Gourmate</title>
+  <meta name="description" content="Find a chef, help the community">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600,100,200" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/build/global.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <nav>
+    <div class="container">
+      <div class="row">
+        <a href="home.html"><img src="img/gourmate_logo_white.png" width="140px" /></a> 
+      </div> 
+    </div>
+  </nav>
+
+  <div class="container">
+  	<div class="row">
+      <div class="ten columns form-column">
+        <div id="pageContent">
+
+          <div class="main clearfix">
+            <form id="nl-form" class="nl-form">
+                <div id="location-container" class="form-part">
+		            <label>where</label>
+		            <select id="location">
+		              <option data-form-part="place" value="Roncade" selected>Roncade</option>
+		              <option data-form-part="place" value="Venezia">Venezia</option>
+		              <option data-form-part="place" value="Treviso">Treviso</option>
+		            </select>
+		            <br>
+		        </div>
+                
+                <div id="date-container" class="form-part">
+		            <label>when</label>
+		            <calendar id="date">
+       						<option value="1" selected>1</option>
+       						<option value="2">2</option>
+       						<option value="3">3</option>
+       						<option value="4">4</option>
+       						<option value="5">5</option>
+       						<option value="6">6</option>
+       						<option value="7">7</option>
+       						<option value="8">8</option>
+       						<option value="9">9</option>
+       						<option value="10">10</option>
+       						<option value="11">11</option>
+       						<option value="12">12</option>
+       						<option value="13">13</option>
+       						<option value="14">14</option>
+       						<option value="15">15</option>
+       						<option value="16">16</option>
+       						<option value="17">17</option>
+       						<option value="18">18</option>
+       						<option value="19">19</option>
+       						<option value="20">20</option>
+       						<option value="21">21</option>
+       						<option value="22">22</option>
+       						<option value="23">23</option>
+       						<option value="24">24</option>
+       						<option value="25">25</option>
+       						<option value="26">26</option>
+       						<option value="27">27</option>
+       						<option value="28">28</option>
+       						<option value="29">29</option>
+       						<option value="30">30</option>
+       						<option value="31">31</option>
+		            </calendar>
+		        </div>
+
+              <!-- how many ppl -->
+              <div id="people-container" class="form-part">
+                <label>how many people</label>
+                <input id="people" type="text" value="2" placeholder="2" data-subline="How many people?"/>
+              </div>
+
+              <div id="menu-container" class="form-part">
+                <label>menu</label>
+                <div class="menu-row">
+                </div>
+              </div>
+              <div class="nl-overlay"></div>
+
+              <!-- ur email -->
+              <div id="email-container" class="form-part">
+                <label>email</label>
+                <input id="email" type="text" value="" placeholder="gourmate@mail.com" data-subline="Tell your email for sending confirmation"/>
+              </div>
+
+              <div id="address-container" class="form-part">
+                <label>address</label>
+                <input id="address" type="text" value="" placeholder="Via Roma 1, Venezia" data-subline="Your home address"/>
+              </div>
+
+            </form>
+          </div>
+          
+			<form id="checkout" method="post" action="http://gourmate.herokuapp.com/protoapi/payment/pay/">
+			  <div id="payment-form"></div>
+			  <input id="pay-button" type="submit" value="Pay">
+			</form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+	
+	<script src="js/build/production.js"></script>
+
+	<script>
+		// instance variables
+		var form_i = 0;
+		var booking = new Object();
+		booking.id =  $.now();
+		var available_menus = [];
+		var available_days = [];
+	</script>
+
+
+	<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+	<script>
+	$(window).ready(function(){
+		$.get("http://gourmate.herokuapp.com/protoapi/payment/token/", function(data) {
+		    var clientToken = data.token;
+
+		    braintree.setup(clientToken, "dropin", {
+		      container: "payment-form"
+		    });
+		});
+
+		$('#people-container input[type=text]').keyup(function () { 
+		    this.value = this.value.replace(/[^0-9\.]/g,'');
+		});
+	});
+
+	</script>
+
+    <script>
+     	var nlform = new NLForm( document.getElementById( 'nl-form' ) );
+    </script>
+</body>
+</html>
