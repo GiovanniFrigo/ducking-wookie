@@ -315,7 +315,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 /*
  *   View array
  */
-var screens = ["location", "date", "people", "menu"];//"allergies", "menu"]; 
+var screens = ["location", "date", "people", "menu", "email", "address"];//"allergies", "menu"]; 
 var lastLocation;
 
 /*
@@ -339,6 +339,7 @@ function setEntry(value, elOriginal) {
     // set the params
     addParamToBooking(value, elOriginal);
     // set next step index
+    console.log(elOriginal);
     var next_step = screens.indexOf(elOriginal) + 1;
 
     if (elOriginal == 'location') {
@@ -355,7 +356,12 @@ function setEntry(value, elOriginal) {
             $.each( data.menus, function( i, item ) {
                 // save menus into a variable
                 available_menus.push(item);
-                
+
+                // update the ui
+                $('#menu-container .menu-row').append("<div class=\"menu-column\"><a class=\"menu-tile-link\" id=\"menu-" + item.id + "\"><div><h4>" + item.name + "<\/h4><p>" + item.price_per_person + " €<\/p><\/div><\/div>")
+                $('.menu-tile-link').click(function() {
+                    setEntry(this.id, "menu")
+                });
             });
         });
         // get menu time availabilities from server
