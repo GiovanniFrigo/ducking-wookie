@@ -1,7 +1,7 @@
 import datetime
 from django.contrib.auth import get_user_model
 from django.http.response import Http404, HttpResponseBadRequest
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 import json
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
@@ -187,3 +187,10 @@ class BookCBV(View):
             return HttpResponseBadRequest(ke)
         except Exception as ex:
             return HttpResponseBadRequest(ex)
+
+def home(request):
+    return render_to_response('index.html')
+
+def awesome(request):
+
+    return render_to_response('awesome.html')
